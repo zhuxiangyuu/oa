@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.oa.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="com.example.oa.po.Log">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="roleName" jdbcType="VARCHAR" property="rolename" />
+    <result column="event" jdbcType="VARCHAR" property="event" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="updatetime" jdbcType="DATE" property="updatetime" />
+  </resultMap>
+  <resultMap id="LogDetail" type="com.example.oa.po.Log">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="event" jdbcType="VARCHAR" property="event" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="updatetime" jdbcType="DATE" property="updatetime" />
+    <association property="user" javaType="User">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="loginName" jdbcType="VARCHAR" property="loginname" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="idcard" jdbcType="VARCHAR" property="idcard" />
+      <result column="age" jdbcType="INTEGER" property="age" />
+      <result column="phone" jdbcType="VARCHAR" property="phone" />
+      <result column="sex" jdbcType="INTEGER" property="sex" />
+      <result column="job" jdbcType="VARCHAR" property="job" />
+      <result column="roleId" jdbcType="INTEGER" property="roleid" />
+      <result column="photo" jdbcType="VARCHAR" property="photo" />
+      <result column="orgId" jdbcType="INTEGER" property="orgid" />
+      <result column="deptId" jdbcType="INTEGER" property="deptid" />
+      <result column="state" jdbcType="INTEGER" property="state" />
+    </association>
+    <association property="role" javaType="Role">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="state" jdbcType="INTEGER" property="state" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userName, roleName, event, remark, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.oa.po.Log">
+    insert into log (id, userName, roleName, 
+      event, remark, updatetime
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{rolename,jdbcType=VARCHAR}, 
+      #{event,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{updatetime,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.oa.po.Log">
+    insert into log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        userName,
+      </if>
+      <if test="rolename != null">
+        roleName,
+      </if>
+      <if test="event != null">
+        event,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="updatetime != null">
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null">
+        #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null">
+        #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.oa.po.Log">
+    update log
+    <set>
+      <if test="username != null">
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="rolename != null">
+        roleName = #{rolename,jdbcType=VARCHAR},
+      </if>
+      <if test="event != null">
+        event = #{event,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null">
+        updatetime = #{updatetime,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.oa.po.Log">
+    update log
+    set userName = #{username,jdbcType=VARCHAR},
+      roleName = #{rolename,jdbcType=VARCHAR},
+      event = #{event,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

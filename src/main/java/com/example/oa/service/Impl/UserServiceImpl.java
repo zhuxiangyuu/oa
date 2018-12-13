@@ -2,17 +2,17 @@ package com.example.oa.service.Impl;
 
 import com.example.oa.mapper.UserMapper;
 import com.example.oa.po.User;
-import com.example.oa.service.TestService;
+import com.example.oa.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 @Service
-public class TestServiceImpl implements TestService {
+public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userMapper;
-    public User selectByPrimaryKey(Integer id) {
-
-        return userMapper.selectByPrimaryKey(id);
+    @Override
+    public User queryUserByUsernameAndPwd(String username, String pwd) {
+        return userMapper.queryUserByUsernameAndPwd(username,pwd);
     }
 }

@@ -48,6 +48,10 @@
     id, loginName, password, name, idcard, age, phone, sex, job, roleId, photo, orgId, 
     deptId, state
   </sql>
+  <select id="queryUserByUsernameAndPwd" resultMap="BaseResultMap">
+    select  * from user where loginName = #{username} and password = #{pwd}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.example.oa.po.User">
     select 
     <include refid="Base_Column_List" />

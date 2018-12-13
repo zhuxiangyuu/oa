@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="zh-CN">
+<html  xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 
-    <link rel="stylesheet" href="css/login.css">
-    <script type="text/javascript" src="js/jquery.min.js"></script>
 	<title>后台登陆</title>
+	<link rel="stylesheet" th:href="@{/css/login.css}">
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
 </head>
 <body>
 	<div id="login_top">
@@ -19,16 +19,16 @@
 	<div id="login_center">
 		<div id="login_area">
 			<div id="login_form">
-				<form action="index.html" method="post">
+				<form action="/user/login" method="post" id="form">
 					<div id="login_tip">
 						用户登录&nbsp;&nbsp;UserLogin
 					</div>
-					<div><input type="text" class="username"></div>
-					<div><input type="text" class="pwd"></div>
+					<div><input type="text" name="username" class="username"></div>
+					<div><input type="text" name="pwd" class="pwd"></div>
 					<div id="btn_area">
 						<input type="submit" name="submit" id="sub_btn" value="登&nbsp;&nbsp;录">&nbsp;&nbsp;
 						<input type="text" class="verify">
-						<img src="images/login/verify.png" alt="" width="80" height="40">
+						<img th:src="@{/images/login/verify.png}" alt="" width="80" height="40">
 					</div>
 				</form>
 			</div>

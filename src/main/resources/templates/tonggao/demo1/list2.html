@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/easyUi/themes/icon.css}">
+    <script type="text/javascript" th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script type="text/javascript" th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('#tab').datagrid({
+                url:'emp/list',
+                width : 800,
+                height: 250,
+                title : "员工列表",
+                pagination : true,//显示分页工具栏
+                pageList : [ 5, 10, 15, 20 ],//显示列表记录数的下拉框选项
+                pageSize : 5,//默认每页记录数
+                columns:[[
+                    {checkbox : true },
+                    {field:'empno',title:'员工编号',width:100,hidden : true},
+                    {field:'empname',title:'员工姓名',width:100},
+                    {field:'empcdate',title:'入职时间',width:100},
+                    {field:'empphone',title:'员工电话',width:100},
+                    {field:'empaddr',title:'家庭地址',width:100},
+                    {field:'empgrade',title:'级别',width:100,
+                        formatter:function(value,row,index){
+                            if(value=="A"){
+                                return "一般雇员";
+                            }else if(value=="B"){
+                                return "部门经理";
+                            }
+                        }
+                    },
+                    {field:'dept',title:'部门名称',width:100,align:'center',
+                        formatter: function(value,row,index){
+                            return row.dept.deptname;
+                        }
+                    },
+                ]],
+                toolbar : [ {
+                    iconCls : 'icon-add',
+                    text : '报道',
+                    handler : function() {
+                        $('#win').window('open');
+                    }}, '-', {
+                    iconCls : 'icon-edit',
+                    text : '修改',
+                    handler : function() {
+                        $('#win').window('open');
+                    }}, '-', {
+                    iconCls : 'icon-save',
+                    text : '升迁',
+                    handler : function() {
+                        $('#win').window('open');
+                    }}, '-', {
+                    iconCls : 'icon-edit',
+                    text : '离职',
+                    handler : function() {
+                        $('#win').window('open');
+                    }}
+
+                ]
+            });
+            dispalyPager();
+        });//文档就绪 end
+        //分页相关
+        function dispalyPager() {
+            $("#tab").datagrid("getPager").pagination({
+                beforePageText : '当前页',
+                afterPageText : '共{pages}',
+                displayMsg : '当前显示从{from}到{to}共{total}条记录'
+            });
+        };
+        //添加员工
+        function addEmp(){
+            $.ajax({
+                url:"emp/add.do",
+                data: {employee : $("#form").serialize()},
+                success : function(data) {
+                    $("#win").window("close");
+                    $("#tab").datagrid("reload");
+                },
+                error : function(){
+                    alert("添加失败");
+                }
+            });
+        };
+
+    </script>
+</head>
+<body>
+
+<table id="tab"> </table>
+
+</body>
+</html>

@@ -31,23 +31,48 @@
     <result column="state" jdbcType="INTEGER" property="state" />
     <association property="role" javaType="Role">
       <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="name1" jdbcType="VARCHAR" property="name" />
       <result column="remark" jdbcType="VARCHAR" property="remark" />
       <result column="state" jdbcType="INTEGER" property="state" />
     </association>
     <association property="organization" javaType="Organization">
       <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="name2" jdbcType="VARCHAR" property="name" />
     </association>
     <association property="dept" javaType="Dept">
       <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="name3" jdbcType="VARCHAR" property="name" />
     </association>
   </resultMap>
   <sql id="Base_Column_List">
     id, loginName, password, name, idcard, age, phone, sex, job, roleId, photo, orgId, 
     deptId, state
   </sql>
+  <!--系统设置/用户管理/-->
+  <!-- 查询用户列表-->
+  <select id="queryUserList" resultMap="UserDetail">
+    SELECT
+           U.loginName,
+           U.`name`,
+           R.`name` AS `name1`,
+           O.`name` AS `name2`,
+           D.`name` AS `name3`,
+           U.state
+    FROM
+         `user` AS U
+           INNER JOIN role AS R ON U.roleId = R.id
+           INNER JOIN organization AS O ON U.orgId = O.id
+           INNER JOIN dept AS D ON U.deptId = D.id
+    LIMIT ${pageNumber}, ${pageSize}
+  </select>
+  <!--查询用户总数-->
+  <select id="countUser" resultType="int">
+    SELECT
+           count(1)
+    FROM
+         `user`
+  </select>
+  <!-- 用户登录-->
   <select id="queryUserByUsernameAndPwd" resultMap="BaseResultMap">
     select  * from user where loginName = #{username} and password = #{pwd}
   </select>

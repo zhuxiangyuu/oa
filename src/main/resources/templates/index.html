@@ -85,8 +85,8 @@ function back(){
               <a href="javascript:void(0)" onclick="back()" id="out">&nbsp;</a>
             </div>
             <div class="info_center">
-              admin
-              <span id="nt">通知</span><span><a href="#" id="notice">3</a></span>
+              <span th:text="${session.user.name}"></span>
+              <!--<span id="nt">通知</span><span><a href="#" id="notice">3</a></span>-->
             </div>
           </div>
         </div>
@@ -144,8 +144,8 @@ function back(){
       <div id="bottom_bg"></div>
     </div>
     <div class="scroll">
-          <a href="javascript:;" class="per" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(1);"></a>
-          <a href="javascript:;" class="next" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(2);"></a>
+          <a href="javascript:void(0)" class="per" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(1);"></a>
+          <a href="javascript:void(0)" class="next" title="使用鼠标滚轴滚动侧栏" onclick="menuScroll(2);"></a>
     </div>
 </body>
 

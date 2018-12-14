@@ -37,7 +37,7 @@ public class User {
 
     private Dept dept;
 
-    private Integer state;// 状态
+    private Integer state;// 状态 (1:启用 2：冻结)
 
     public Integer getId() {
         return id;

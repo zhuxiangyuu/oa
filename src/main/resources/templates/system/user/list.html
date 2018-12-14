@@ -39,9 +39,13 @@
                                 align : 'center'
                             },
                             {
-                                field : 'role.name',
+                                field : 'role',
                                 title : '角色',
-                                align : 'center'
+                                align : 'center',
+                                formatter : function(value, row, index) {
+                                    var text = value.name;
+                                    return text;
+                                }
                             }, {
                                 field : 'dept',
                                 title : '机构/部门',

@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        //发布
+        function insertAnnounce() {
+            $.ajax({
+                url:"/announce/add",
+                data:{"state":2},
+                success(data){
+
+                }
+            });
+        }
+        //保存
+        function insertAnnounce() {
+            $.ajax({
+                url:"/announce/add",
+                data:{"state":1,"announce":$("#ff").serialize()},
+                success(data){
+
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+<div id="p" class="easyui-panel" title="<center>添加公告</center>">
+    <form id="ff" method="post">
+        <table style="margin:0 auto " cellpadding="10">
+            <tr>
+                <td>标题:</td>
+                <td><input class="easyui-textbox" type="text" name="name" data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <td>发布时间:</td>
+                <td><input class="easyui-textbox" type="text" name="email" data-options="required:true"/></td>
+            </tr>
+            <tr>
+                <td>发布人:</td>
+                <td><span th:text="${session.user.name}"></span></td>
+            </tr>
+            <tr>
+                <td>内容:</td>
+                <td><input class="easyui-textbox" type="text" name="subject"/></td>
+            </tr>
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="insertAnnounce()">发布</a>
+        &emsp;&emsp;
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="inAnnounce()">保存</a>
+        &emsp;&emsp;
+        <a th:href="@{/page/tonggao/demo1/list2}" class="easyui-linkbutton" >返回</a>
+    </div>
+</div>
+
+</body>
+
+</html>

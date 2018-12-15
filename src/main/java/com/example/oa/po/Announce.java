@@ -23,6 +23,8 @@ public class Announce {
 
     private String content;// 内容
 
+    private Integer state; // 状态  (1：草稿 2：已发布  3：已过期)
+
 
     public Integer getId() {
         return id;
@@ -86,5 +88,13 @@ public class Announce {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

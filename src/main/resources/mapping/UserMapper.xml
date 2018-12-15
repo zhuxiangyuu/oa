@@ -60,9 +60,17 @@
            U.state
     FROM
          `user` AS U
-           INNER JOIN role AS R ON U.roleId = R.id
-           INNER JOIN organization AS O ON U.orgId = O.id
-           INNER JOIN dept AS D ON U.deptId = D.id
+           LEFT JOIN role AS R ON U.roleId = R.id
+           LEFT JOIN organization AS O ON U.orgId = O.id
+           LEFT JOIN dept AS D ON U.deptId = D.id
+    <where>
+        <if test="user.loginname != null and user.loginname != ''">
+            U.loginName = #{user.loginname}
+        </if>
+      <if test="user.name != null and user.name != ''">
+        AND U.name = #{user.name}
+      </if>
+    </where>
     LIMIT ${pageNumber}, ${pageSize}
   </select>
   <!--查询用户总数-->
@@ -71,6 +79,14 @@
            count(1)
     FROM
          `user`
+    <where>
+      <if test="user.loginname != null and user.loginname != ''">
+        loginName = #{user.loginname}
+      </if>
+      <if test="user.name != null and user.name != ''">
+        AND name = #{user.name}
+      </if>
+    </where>
   </select>
   <!-- 用户登录-->
   <select id="queryUserByUsernameAndPwd" resultMap="BaseResultMap">
@@ -78,8 +94,8 @@
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.example.oa.po.User">
-    select 
-    <include refid="Base_Column_List" />
+    select
+      <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=INTEGER}
   </select>

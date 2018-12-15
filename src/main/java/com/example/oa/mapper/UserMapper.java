@@ -23,7 +23,7 @@ public interface UserMapper {
 
     User queryUserByUsernameAndPwd(@Param("username") String username, @Param("pwd")String pwd);
 
-    List<User> queryUserList(@Param("pageNumber")Integer pageNumber,@Param("pageSize")Integer pageSize);
+    List<User> queryUserList(@Param("pageNumber")Integer pageNumber,@Param("pageSize")Integer pageSize,@Param("user")User user);
 
-    int countUser();
+    int countUser(@Param("user")User user);
 }

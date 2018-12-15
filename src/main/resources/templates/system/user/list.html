@@ -23,6 +23,7 @@
                         title : "用户列表",// 标题
                         pageList : [ 5, 10, 15, 20 ],// 列表记录数的下拉框值
                         pageSize : 5,// 默认每页记录数
+                        queryParams : queryParams(),//传递参数（*）
                         columns : [ [
                             {
                                 field : 'id',
@@ -58,6 +59,7 @@
                                 field : 'state',
                                 title : '用户状态',
                                 align : 'center',
+                                width : 50,
                                 formatter : function(value, row, index) {
                                     if(value==1){
                                         return "启用";
@@ -85,6 +87,10 @@
 
                     });
             dispalyPager();
+            // 搜索按钮绑定事件
+            $("#search").click(function () {
+                $('#tab').datagrid("load",queryParams());   //点击搜索
+            });
         }
         // 员工列表分页工具栏
         function dispalyPager() {
@@ -94,9 +100,24 @@
                 displayMsg : '当前显示从{from}到{to}共{total}条记录'
             });
         }
+        //得到查询的参数
+        function queryParams() {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                loginname:$("#searchLoginname").val(),
+                name:$("#searchName").val()
+            };
+            return temp;
+        }
     </script>
 </head>
 <body>
+<!-- 搜索列表 -->
+<label for="searchLoginname">登录名：</label>
+<input  name="searchLoginname" class="easyui-validatebox validatebox-text" id="searchLoginname">
+<label for="searchName">真实姓名：</label>
+<input  name="searchName" class="easyui-validatebox validatebox-text" id="searchName">
+<!--查询按钮 -->
+<a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: -40px;" iconCls="icon-search" id="search">查询</a>
 <!-- 用户列表 -->
 <table id="tab"></table>
 </body>

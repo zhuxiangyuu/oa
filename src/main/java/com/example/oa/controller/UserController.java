@@ -32,9 +32,15 @@ public class UserController {
     }
     @RequestMapping("/queryUserList")
     @ResponseBody
-    public String queryUserList(Integer page, Integer rows , Map<String,Object> map){
-        List<User> list = userService.queryUserList((page - 1) * rows, rows);
-        map.put("total", userService.countUser());
+    public String queryUserList(User user,Integer page, Integer rows , Map<String,Object> map){
+        System.out.println("起始条数："+(page - 1) * rows+"一页几条:"+rows);
+        List<User> list = userService.queryUserList((page - 1) * rows, rows,user);
+        for (User users :
+                list) {
+            System.out.println("用户名："+users.getName());
+        }
+        System.out.println("总条数："+userService.countUser(user));
+        map.put("total", userService.countUser(user));
         map.put("rows", list);
         String jsonString =JSONArray.toJSONString(map);
         return jsonString;

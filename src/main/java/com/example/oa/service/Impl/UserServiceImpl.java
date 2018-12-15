@@ -18,12 +18,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> queryUserList(Integer pageNumber,Integer pageSize) {
-        return userMapper.queryUserList(pageNumber,pageSize);
+    public List<User> queryUserList(Integer pageNumber,Integer pageSize,User user) {
+        return userMapper.queryUserList(pageNumber,pageSize,user);
     }
 
     @Override
-    public int countUser() {
-        return userMapper.countUser();
+    public int countUser(User user) {
+        return userMapper.countUser(user);
     }
 }

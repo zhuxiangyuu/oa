@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UserService {
     User queryUserByUsernameAndPwd(String username, String pwd);
-    List<User> queryUserList(Integer pageNumber,Integer pageSize);
-    int countUser();
+    List<User> queryUserList(Integer pageNumber,Integer pageSize,User user);
+    int countUser(User user);
 }

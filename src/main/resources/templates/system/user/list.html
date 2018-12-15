@@ -32,17 +32,20 @@
                             {
                                 field : 'loginname',
                                 title : '用户名',
-                                align : 'center'
+                                align : 'center',
+                                width :50
                             },
                             {
                                 field : 'name',
                                 title : '真实姓名',
-                                align : 'center'
+                                align : 'center',
+                                width : 50
                             },
                             {
                                 field : 'role',
                                 title : '角色',
                                 align : 'center',
+                                width : 50,
                                 formatter : function(value, row, index) {
                                     var text = value.name;
                                     return text;
@@ -51,6 +54,7 @@
                                 field : 'dept',
                                 title : '机构/部门',
                                 align : 'center',
+                                width : 80,
                                 formatter : function(value, row, index) {
                                     var text ;
                                     if (row.organization == undefined) {
@@ -76,6 +80,8 @@
                             {
                                 field : 'opt',
                                 title : "操作",
+                                align : 'center',
+                                width : 80,
                                 formatter : function(value, row, index) {
                                     var text;
                                     if(row.state==1){
@@ -117,12 +123,15 @@
 </head>
 <body>
 <!-- 搜索列表 -->
-<label for="searchLoginname">登录名：</label>
-<input  name="searchLoginname" class="easyui-validatebox validatebox-text" id="searchLoginname">
-<label for="searchName">真实姓名：</label>
-<input  name="searchName" class="easyui-validatebox validatebox-text" id="searchName">
+<div style="text-align: center">
+    <label for="searchLoginname">登录名：</label>
+    <input  name="searchLoginname" class="easyui-validatebox validatebox-text" id="searchLoginname">
+    <label for="searchName">真实姓名：</label>
+    <input  name="searchName" class="easyui-validatebox validatebox-text" id="searchName">
 <!--查询按钮 -->
 <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: -40px;" iconCls="icon-search" id="search">查询</a>
+</div>
+<p></p>
 <!-- 用户列表 -->
 <table id="tab"></table>
 </body>

@@ -65,10 +65,10 @@
            LEFT JOIN dept AS D ON U.deptId = D.id
     <where>
         <if test="user.loginname != null and user.loginname != ''">
-            U.loginName = #{user.loginname}
+            U.loginName like concat( '%',#{user.loginname},'%')
         </if>
       <if test="user.name != null and user.name != ''">
-        AND U.name = #{user.name}
+        AND U.name like concat( '%',#{user.name},'%')
       </if>
     </where>
     LIMIT ${pageNumber}, ${pageSize}
@@ -81,10 +81,10 @@
          `user`
     <where>
       <if test="user.loginname != null and user.loginname != ''">
-        loginName = #{user.loginname}
+        loginName like concat( '%',#{user.loginname},'%')
       </if>
       <if test="user.name != null and user.name != ''">
-        AND name = #{user.name}
+        AND name like concat( '%',#{user.name},'%')
       </if>
     </where>
   </select>

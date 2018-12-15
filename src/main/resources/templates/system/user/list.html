@@ -94,7 +94,10 @@
                             } ] ],
                         toolbar : [ {
                             iconCls : 'icon-add',
-                            text : '<a th:href="@{/page/system/user/add}">添加用户</a>'
+                            text : '添加用户',
+                            handler:function(){
+                                window.location.href="/page/system/user/add";
+                            }
                         }]
 
                     });

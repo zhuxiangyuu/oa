@@ -52,7 +52,12 @@
                                 title : '机构/部门',
                                 align : 'center',
                                 formatter : function(value, row, index) {
-                                    var text = row.organization.name+"/"+row.dept.name;
+                                    var text ;
+                                    if (row.organization == undefined) {
+                                        text = '无';
+                                    }else{
+                                        text = row.organization.name+"/"+row.dept.name;
+                                    }
                                     return text;
                                 }
                             },{

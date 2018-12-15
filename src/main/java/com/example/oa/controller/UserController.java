@@ -1,6 +1,7 @@
 package com.example.oa.controller;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.oa.po.User;
 import com.example.oa.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class UserController {
         System.out.println("总条数："+userService.countUser(user));
         map.put("total", userService.countUser(user));
         map.put("rows", list);
-        String jsonString =JSONArray.toJSONString(map);
+        String jsonString = JSONObject.toJSONString(map);
         return jsonString;
     }
 }

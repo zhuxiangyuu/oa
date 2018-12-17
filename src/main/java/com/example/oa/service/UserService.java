@@ -10,4 +10,6 @@ public interface UserService {
     int countUser(User user);
     User queryUserByLoginname(String loginname);
     int addUser(User user);
+    int updateUserState(Integer state,Integer id);
+    int deleteUser(Integer id);
 }

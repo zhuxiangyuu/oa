@@ -36,4 +36,14 @@ public class UserServiceImpl implements UserService {
     public int addUser(User user) {
         return userMapper.insertSelective(user);
     }
+
+    @Override
+    public int updateUserState(Integer state,Integer id) {
+        return userMapper.updateUserState(state,id);
+    }
+
+    @Override
+    public int deleteUser(Integer id) {
+        return userMapper.deleteByPrimaryKey(id);
+    }
 }

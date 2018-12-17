@@ -49,6 +49,13 @@
     deptId, state
   </sql>
   <!--系统设置/用户管理/-->
+  <!-- 更新用户状态 -->
+  <update id="updateUserState">
+    update user
+    set
+        state = #{state}
+    where id = #{id}
+  </update>
   <!-- 根据登录名查询用户 -->
   <select id="queryUserByLoginname" resultMap="BaseResultMap">
     SELECT
@@ -61,6 +68,7 @@
   <!-- 查询用户列表-->
   <select id="queryUserList" resultMap="UserDetail">
     SELECT
+           U.id,
            U.loginName,
            U.`name`,
            R.`name` AS `name1`,

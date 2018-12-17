@@ -54,7 +54,7 @@
                                 width : 80,
                                 formatter : function(value, row, index) {
                                     var text ;
-                                    if (row.organization == undefined) {
+                                    if (row.organization == undefined || row.organization.name ==undefined) {
                                         text = '无';
                                     }else{
                                         text = row.organization.name+"/"+row.dept.name;
@@ -75,19 +75,19 @@
                                 }
                             },
                             {
-                                field : 'opt',
+                                field : 'id',
                                 title : "操作",
                                 align : 'center',
                                 width : 80,
                                 formatter : function(value, row, index) {
                                     var text;
-
+                                    var id = value;
                                     if(row.state==1){
-                                        text = '<a href="">冻结</a> |';
+                                        text = '<a href="/user/updateUserState/2/'+id+'">冻结</a> |';
                                     }else{
-                                        text = '<a href="">启用</a> |';
+                                        text = '<a href="/user/updateUserState/1/'+id+'">启用</a> |';
                                     }
-                                    return text+' <a href="/page/system/user/edit">编辑</a> | <a href="">删除</a>';
+                                    return text+' <a href="/page/system/user/edit?id='+id+'">编辑</a> | <a href="javascript:void(0);" onclick=del('+id+')>删除</a>';
                                 }
                             } ] ],
                         toolbar : [ {
@@ -120,6 +120,14 @@
                 name:$("#searchName").val()
             };
             return temp;
+        }
+        // 删除
+        function del(id) {
+            $.messager.confirm('删除确认','您确认要删除吗?',function(r){
+                if (r){
+                   window.location.href="/user/deleteUser/"+id;
+                }
+            });
         }
     </script>
 </head>

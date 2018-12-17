@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.oa.po.User;
 import com.example.oa.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -66,9 +67,10 @@ public class UserController {
         String jsonString = JSON.toJSONString(map);
         return jsonString;
     }
-
-    public String updateUserState() {
-        return "";
+    @RequestMapping("/updateUserState/{state}/{id}")
+    public String updateUserState(@PathVariable Integer state,@PathVariable Integer id) {
+        userService.updateUserState(state,id);
+        return "/system/user/list";
     }
 
     public String updateUserInfo() {
@@ -80,9 +82,10 @@ public class UserController {
         userService.addUser(user);
         return "true";
     }
-
-    public String deleteUser() {
-        return "";
+    @RequestMapping("/deleteUser/{id}")
+    public String deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
+        return "/system/user/list";
     }
 
     public String queryUserInfoByUserId() {

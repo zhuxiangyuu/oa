@@ -29,4 +29,5 @@ public interface UserMapper {
 
     User queryUserByLoginname(@Param("loginname")String loginname);
 
+    int updateUserState(@Param("state")Integer state,@Param("id")Integer id);
 }

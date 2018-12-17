@@ -41,6 +41,13 @@ public class UserController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping("/queryUserByLoginname")
+    public Boolean queryUserByLoginname(String loginname){
+        User user = userService.queryUserByLoginname(loginname);
+        return user==null?true:false;
+    }
+
     /**
      * 查询用户列表
      *
@@ -67,9 +74,11 @@ public class UserController {
     public String updateUserInfo() {
         return "";
     }
-
-    public String addUser() {
-        return "";
+    @RequestMapping("/addUser")
+    @ResponseBody
+    public String addUser(User user) {
+        userService.addUser(user);
+        return "true";
     }
 
     public String deleteUser() {

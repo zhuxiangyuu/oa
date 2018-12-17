@@ -26,4 +26,14 @@ public class UserServiceImpl implements UserService {
     public int countUser(User user) {
         return userMapper.countUser(user);
     }
+
+    @Override
+    public User queryUserByLoginname(String loginname) {
+        return userMapper.queryUserByLoginname(loginname);
+    }
+
+    @Override
+    public int addUser(User user) {
+        return userMapper.insertSelective(user);
+    }
 }

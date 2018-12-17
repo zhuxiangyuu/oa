@@ -26,4 +26,7 @@ public interface UserMapper {
     List<User> queryUserList(@Param("pageNumber")Integer pageNumber,@Param("pageSize")Integer pageSize,@Param("user")User user);
 
     int countUser(@Param("user")User user);
+
+    User queryUserByLoginname(@Param("loginname")String loginname);
+
 }

@@ -49,6 +49,15 @@
     deptId, state
   </sql>
   <!--系统设置/用户管理/-->
+  <!-- 根据登录名查询用户 -->
+  <select id="queryUserByLoginname" resultMap="BaseResultMap">
+    SELECT
+          <include refid="Base_Column_List" />
+    FROM
+         `user`
+    WHERE
+            `user`.loginName = #{loginname}
+  </select>
   <!-- 查询用户列表-->
   <select id="queryUserList" resultMap="UserDetail">
     SELECT
@@ -71,6 +80,7 @@
         AND U.name like concat( '%',#{user.name},'%')
       </if>
     </where>
+    ORDER BY  U.id
     LIMIT ${pageNumber}, ${pageSize}
   </select>
   <!--查询用户总数-->

@@ -16,52 +16,67 @@
         // 加载角色
         role();
     });
+
     // 加载机构
-    function organization(){
+    function organization() {
         $('#orgid').combobox({
-            url:'/organization/queryOrganizationList',
-            valueField:'id',
-            textField:'name',
+            url: '/organization/queryOrganizationList',
+            valueField: 'id',
+            textField: 'name',
             onLoadSuccess: function (data) {
                 if (data) {
-                    $('#orgid').combobox('setValue',data[0].id);
+                    $('#orgid').combobox('setValue', data[0].id);
                 }
             },
-            onChange:function () {
+            onChange: function () {
                 dept();
             }
         });
     }
+
     // 加载部门
     function dept() {
         $('#deptid').combobox({
-            url:'/dept/queryDeptByOrgId/'+$("#orgid").combobox("getValue"),
-            valueField:'id',
-            textField:'name',
+            url: '/dept/queryDeptByOrgId/' + $("#orgid").combobox("getValue"),
+            valueField: 'id',
+            textField: 'name',
             onLoadSuccess: function (data) {
                 if (data) {
-                    $('#deptid').combobox('setValue',data[0].id);
+                    $('#deptid').combobox('setValue', data[0].id);
                 }
             }
         });
     }
+
     // 加载角色
     function role() {
         $('#roleid').combobox({
-            url:'/role/queryRoleList',
-            valueField:'id',
-            textField:'name',
+            url: '/role/queryRoleList',
+            valueField: 'id',
+            textField: 'name',
             onLoadSuccess: function (data) {
                 if (data) {
-                    $('#roleid').combobox('setValue',data[0].id);
+                    $('#roleid').combobox('setValue', data[0].id);
                 }
             }
         });
     }
-    //
-    // 保存用户
-    function save(){
 
+    // 保存用户
+    function save() {
+        $('#form').form('submit', {
+                url: "/user/addUser",
+            onSubmit: function(){
+            var isValid = $(this).form('validate');
+            if (!isValid){
+                $.messager.progress('close1');	// hide progress bar while the form is invalid
+            }
+            return isValid;	// return false will stop the form submission
+        },
+        success: function(){
+            window.location.href="/page/system/user/list";
+        }
+    });
     }
 </script>
 <body>
@@ -70,27 +85,40 @@
         <table style="margin:0 auto " cellpadding="10">
             <tr>
                 <td><label for="loginname">登录名:</label></td>
-                <td><input class="easyui-textbox" type="text" id="loginname" name="loginname" style="width:150px;"/></td>
+                <td><input class="easyui-textbox" type="text" id="loginname" name="loginname" style="width:150px;"
+                           data-options="required:true,prompt:'请输入登录名'" validType="remote['/user/queryUserByLoginname','loginname']"
+                           missingMessage="登录名不能为空" invalidMessage="用户名已存在"
+                /></td>
             </tr>
             <tr>
                 <td><label for="password">登录密码:</label></td>
-                <td><input class="easyui-textbox" type="text" id="password" name="password" style="width:150px;"/></td>
+                <td><input class="easyui-textbox" type="password" id="password" name="password" style="width:150px;"
+                           data-options="required:true,prompt:'请输入登录密码'" missingMessage="登录密码不能为空"
+                /></td>
             </tr>
             <tr>
                 <td><label for="name">真实姓名：</label></td>
-                <td><input class="easyui-textbox" type="text" id="name" name="name" style="width:150px;"/></td>
+                <td><input class="easyui-textbox" type="text" id="name" name="name" style="width:150px;"
+                           data-options="required:true,prompt:'请输入真实姓名'" missingMessage="真实姓名不能为空"
+                /></td>
             </tr>
             <tr>
                 <td><label for="idcard">身份证：</label></td>
-                <td><input class="easyui-textbox" type="text" id="idcard" name="idcard" style="width:150px;"/></td>
+                <td><input class="easyui-textbox" type="text" id="idcard" name="idcard" style="width:150px;"
+                           data-options="required:true,prompt:'请输入身份证号'" missingMessage="身份证号不能为空"
+                /></td>
             </tr>
             <tr>
                 <td><label for="age">年龄：</label></td>
-                <td><input class="easyui-textbox" type="text" id="age" name="age" style="width:150px;"/></td>
+                <td><input class="easyui-textbox" type="text" id="age" name="age" style="width:150px;"
+                           data-options="required:true,prompt:'请输入年龄'" missingMessage="年龄不能为空"
+                /></td>
             </tr>
             <tr>
                 <td><label for="phone">手机号：</label></td>
-                <td><input class="easyui-textbox" type="text" id="phone" name="phone" style="width:150px;"/></td>
+                <td><input class="easyui-textbox" type="text" id="phone" name="phone" style="width:150px;"
+                           data-options="required:true,prompt:'请输入手机号码'" missingMessage="手机号码不能为空"
+                /></td>
             </tr>
             <tr>
                 <td>性别：</td>
@@ -103,13 +131,13 @@
                 <td><label for="orgid">机构部门：</label></td>
                 <td>
                     <select id="orgid" class="easyui-combobox" name="orgid" style="width:150px;"></select>
-                    <select id="deptid"  class="easyui-combobox" name="deptid" style="width:150px;"></select>
+                    <select id="deptid" class="easyui-combobox" name="deptid" style="width:150px;"></select>
                 </td>
             </tr>
             <tr>
                 <td><label for="job">职称：</label></td>
                 <td>
-                    <select id="job"  class="easyui-combobox" name="job" style="width:150px;">
+                    <select id="job" class="easyui-combobox" name="job" style="width:150px;">
                         <option>普通用户</option>
                         <option>助理</option>
                         <option>部门经理</option>
@@ -120,23 +148,23 @@
             <tr>
                 <td><label for="roleid">角色：</label></td>
                 <td>
-                    <select id="roleid"  class="easyui-combobox" name="roleid" style="width:150px;"></select>
+                    <select id="roleid" class="easyui-combobox" name="roleid" style="width:150px;"></select>
                 </td>
             </tr>
             <tr>
                 <td><label for="state1">状态:</label></td>
                 <td>
-                    <input type="radio" id="state1" name="state" value="1" checked><label for="state1">启用</label></input>
+                    <input type="radio" id="state1" name="state" value="1" checked><label
+                        for="state1">启用</label></input>
                     <input type="radio" id="state2" name="state" value="2"><label for="state2">禁用</label></input>
                 </td>
             </tr>
+            <tr>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="save()">保存</a></td>
+                <td><a th:href="@{/page/system/user/list}" class="easyui-linkbutton">返回</a></td>
+            </tr>
         </table>
     </form>
-    <div style="text-align:center;padding:5px">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="save()">保存</a>
-        &emsp;&emsp;
-        <a th:href="@{/page/system/user/list}" class="easyui-linkbutton">返回</a>
-    </div>
 </div>
 </body>
 </html>

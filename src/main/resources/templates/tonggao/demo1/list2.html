@@ -26,10 +26,6 @@
                         queryParams : queryParams(),//传递参数（*）
                         columns : [ [
                             {
-                                field : 'id',
-                                checkbox : true
-                            },
-                            {
                                 field : 'title',
                                 title : '名称',
                                 align : 'center',
@@ -78,19 +74,18 @@
                                 align : 'center',
                                 width :50,
                                 formatter : function(value, row, index) {
-                                    if(row.user.deptid==2){
-                                    if(row.state==1){
-                                        return '<a href="">发布</a> | <a href="">编辑</a> | <a href="">删除</a>';
-                                    }else {
-                                        return '<a href="">删除</a>';
-                                    }
-                                    }else{
-                                        return '';
-                                    }
+                                        if(row.state==1){
+                                           return '<a href="javascript:void(0)" onclick="updateAnn('+row.id+')">发布</a> ' +
+                                               '| <a href="/page/tonggao/demo1/edit?id='+row.id+' ">编辑</a> ' +
+                                               '| <a href="#" onclick="del('+row.id+')">删除</a>';
+                                        }else {
+                                           return '<a href="#" onclick="del('+row.id+')">删除</a>';
+                                        }
                                 }
                             } ] ],
                         toolbar : [ {
                             iconCls : 'icon-add',
+                            align : 'center',
                             text : '添加通告',
                             handler:function(){
                                 window.location.href="/page/tonggao/demo1/add2";
@@ -101,6 +96,26 @@
             // 搜索按钮绑定事件
             $("#search").click(function () {
                 $('#tab').datagrid("load",queryParams());   //点击搜索
+            });
+        } //查询通告列表--->end
+        //根据Id删除一条通告
+        function del(id) {
+            $.messager.confirm('删除确认','您确定要删除吗?',function(r){
+                if (r){
+                    window.location.href="/announce/del/"+id;
+                }
+            });
+        }
+        //发布一条通告
+        function updateAnn(id) {
+            $.ajax({
+                url:"/announce/update",
+                dataType:"text",
+                data:{"id":id},
+                type:"post",
+                success:function () {
+                    reloadtable();
+                }
             });
         }
         //刷新表格
@@ -124,6 +139,10 @@
             };
             return temp;
         }
+        function back() {
+            $('#win').window('close');
+            $('#win2').window('close');
+        }
         //根据id查看通告详细信息
         function look(id){
             $('#win').window('open');
@@ -133,11 +152,15 @@
                data:{"id":id},
                success : function(data){
                    console.log(data);
-                    $("#win").append("<p>"+"标题："+data.title+"</p>"
-                    +"<p>"+"显示时间段："+data.starttime+"to"+data.endtime+"</p>"
-                    +"<p>"+"发布时间："+data.subtime+"</p>"
-                    +"<p>"+"发布人："+data.user.name+"</p>"
-                   +"<p>"+"内容："+data.content+"</p>");
+                    $("#win"). prepend("<table id='easyui-datagrid'>"
+                            +"<tr>"
+                    +"<p>"+"标题："+data.announce.title+"</p>"
+                    +"<p>"+"显示时间段："+data.announce.starttime+"     to："+data.announce.endtime+"</p>"
+                    +"<p>"+"发布时间："+data.announce.subtime+"</p>"
+                    +"<p>"+"发布人："+data.announce.user.name+"</p>"
+                    +"<p>"+"内容："+data.announce.content+"</p>"
+                            +"</tr>"
+                    +"</table>");
                },
                 error : function(){
                    alert("网络繁忙，请稍后再试！");
@@ -162,6 +185,7 @@
     <table id="tab"></table>
     <div id="win" class="easyui-window"   closed="true" title="查看通告" style="width:600px;height:300px"
          data-options="iconCls:'icon-save',modal:true">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-back" style=bottom:20px; onclick="back()">返回</a>
     </div>
 
 </body>

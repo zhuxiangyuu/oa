@@ -40,15 +40,34 @@
   <sql id="Base_Column_List">
     id, title, startTime, endTime, subTime, userId, content,state
   </sql>
-  <!-- 添加一条通告 -->
   <!-- 查询通告条数  -->
   <select id="countAnnounce" resultType="int" >
     SELECT count(1)
     from `announce`
+      <where>
+          <if test="title!=null and title!=''">
+              title like concat('%',#{title},'%')
+          </if>
+          <if test="time1!=null" >
+              and TO_DAYS(A.subTime) &gt;=  TO_DAYS  (#{time1})
+          </if>
+          <if test="time2!=null">
+              and TO_DAYS(A.subTime) &lt;=  TO_DAYS  (#{time2})
+          </if>
+      </where>
   </select>
   <!--根据id查询通告详细信息-->
   <select id="lookAnnounceById" resultMap="AnnounceDetail">
-    select * from announce where id=#{id,jdbcType=INTEGER}
+    select A.id,
+           A.title,
+           A.startTime,
+           A.endTime,
+           A.subTime,
+           A.content,
+           A.state,
+           U.`name` from announce A
+           INNER JOIN `user` AS U ON A.userId = U.id
+           where A.id=#{id,jdbcType=INTEGER}
   </select>
   <!--查询通告列表-->
   <select id="queryAnnounceList" resultMap="AnnounceDetail">
@@ -63,7 +82,8 @@
            U.`name`
     FROM
          announce AS A
-           INNER JOIN `user` AS U ON A.userId = U.id
+    left JOIN `user` AS U
+    ON A.userId = U.id
     <where>
       <if test="title!=null and title!=''">
         title like concat('%',#{title},'%')
@@ -75,27 +95,22 @@
         and TO_DAYS(A.subTime) &lt;=  TO_DAYS  (#{time2})
       </if>
     </where>
-    GROUP BY A.id
+    order BY A.id
     limit ${pageNumber},${pageSize}
 
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from announce
-    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from announce
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  <!-- 添加一条通告 -->
   <insert id="insert" parameterType="com.example.oa.po.Announce">
-    insert into announce (id, title, startTime, 
+    insert into announce (title, startTime,
       endTime, subTime, userId, 
       content,state)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{starttime,jdbcType=DATE}, 
-      #{endtime,jdbcType=DATE}, #{subtime,jdbcType=DATE}, #{userid,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR},#{state,jdbcType=INTEGER})
+    values (#{announce.title,jdbcType=VARCHAR}, #{announce.starttime,jdbcType=DATE},
+      #{announce.endtime,jdbcType=DATE},now(), #{announce.userid,jdbcType=INTEGER},
+      #{announce.content,jdbcType=VARCHAR},#{announce.state,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.example.oa.po.Announce">
     insert into announce
@@ -165,7 +180,7 @@
         endTime = #{endtime,jdbcType=DATE},
       </if>
       <if test="subtime != null">
-        subTime = #{subtime,jdbcType=DATE},
+        subTime = now(),
       </if>
       <if test="userid != null">
         userId = #{userid,jdbcType=INTEGER},
@@ -174,20 +189,17 @@
         content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
-        state = #{state,jdbcType=INTEGER},
+        state =#{state,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.oa.po.Announce">
+  <!--根据id修改通告状态-->
+  <update id="updateByPrimaryKey" parameterType="int">
     update announce
-    set title = #{title,jdbcType=VARCHAR},
-      startTime = #{starttime,jdbcType=DATE},
-      endTime = #{endtime,jdbcType=DATE},
-      subTime = #{subtime,jdbcType=DATE},
-      userId = #{userid,jdbcType=INTEGER},
-      state = #{state,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    set
+      subTime = now(),
+      state = 2
+    where id = #{value}
   </update>
 </mapper>

@@ -1,68 +1,71 @@
-﻿<!doctype html>
- <html >
- <head>
-   <meta charset="UTF-8">
-   <link rel="stylesheet" href="../../../css/common.css">
-   <link rel="stylesheet" href="../../../css/main.css">
-   <script type="text/javascript" src="../../../js/jquery.min.js"></script>
-   <script type="text/javascript" src="../../../js/colResizable-1.3.min.js"></script>
-   <script type="text/javascript" src="../../../js/common.js"></script>
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/util.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        $(function () {
+            $.getJSON("/announce/look", {id: getUrlParam('id')}, function (data) {
+                console.log(data);
+                var t = data.announce;
+                $("#title").textbox('setValue', t.title);
+                $("#starttime").textbox('setValue', t.starttime);  //日期赋值
+                $("#endtime").textbox('setValue', t.endtime);  //日期赋值
+                $("#content").textbox('setValue', t.content);
+            });
+        });
+
+        function add() {
+            // 发布
+            var userId =   $("#userId").val();
+            $("#ff").attr("action", "/announce/save/"+userId);
+            var id = $("<input name='id'/>");
+            id.attr("value", getUrlParam('id'));
+            $("#ff").append(id);
+            $("#ff").submit();
+        }
+    </script>
 </head>
 
 <body>
-  <div id="forms" class="mt10">
-        <div class="box">
-          <div class="box_border">
-            <div class="box_top"><b class="pl15">编辑通告</b></div>
-            <div class="box_center">
-              <form action="list.html" class="jqtransform">
-               <table class="form_table pt15 pb15" width="100%" border="0" cellpadding="0" cellspacing="0">
-                 <tr>
-                  <td class="td_right">标题：</td>
-                  <td class=""> 
-                    <input type="text" name="name" class="input-text lh30" size="40" value="最新公告通知">
-                  </td>
-				  </tr>
-				  <tr>
-                  <td class="td_right">显示时间段：</td>
-				  <td><input type="" name="name" class="input-text lh30" size="40" value="2015-12-10">to
-				  <input type="" name="name" class="input-text lh30" size="40" value="2015-12-20"></td>
-                </tr>
-					   <tr>
-						  <td class="td_right">发布时间：</td>
-						  <td class=""> 
-							<input type="text" name="name" class="input-text lh30" size="40" value="">
-						  </td>
-					  </tr>
-					   <tr>
-						  <td class="td_right">发布人：</td>
-						  <td class=""> 
-							李四
-						  </td>
-					  </tr>
-					   <tr>
-						  <td class="td_right">内容：</td>
-						  <td class=""> 
-							<textarea class="input-text lh30">safsafafasas</textarea>
-						  </td>
-					  </tr>
-			
-              
-                 <tr>
-                   <td class="td_right">&nbsp;</td>
-                   <td class="">
-				   <input type="submit" name="button" class="btn btn82 btn_save2" value="发布">
-                     <input type="submit" name="button" class="btn btn82 btn_save2" value="编辑"> 
-                    <input type="button" name="button" class="btn btn82 btn_res" onclick="location.href='javascript:history.go(-1)'" value="返回"> 
-                   </td>
-                 </tr>
-               </table>
-               </form>
-            </div>
-          </div>
-        </div>
-     </div>
-   </div> 
+<input type="hidden" th:value="${session.user.id}" id="userId">
+<div id="p" class="easyui-panel" title="<center>编辑通告</center>">
+    <form id="ff" method="post">
+        <table style="margin:0 auto " cellpadding="10">
+            <tr>
+                <td>标题:</td>
+                <td><input class="easyui-textbox" type="text" name="title" id="title" required/></td>
+            </tr>
+            <tr>
+                <td>发布人:</td>
+                <td>
+                    <span th:text="${session.user.name}"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>开始时间:</td>
+                <td><input class="easyui-datebox" name="starttime" id="starttime"/></td>
+                <td>to:</td>
+                <td><input class="easyui-datebox" name="endtime" id="endtime"/></td>
+            </tr>
+            <tr>
+                <td>内容:</td>
+                <td><input class="easyui-textbox" type="text" name="content" id="content"/></td>
+            </tr>
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="add()">发布</a>
+        &emsp;&emsp;
+        <a th:href="@{/page/tonggao/demo1/list2}" class="easyui-linkbutton">返回</a>
+    </div>
+</div>
+
 </body>
 
 </html>

@@ -14,11 +14,11 @@ public class AnnounceServiceImpl implements AnnounceService {
     @Resource
     AnnounceMapper announceMapper;
 
-    public List<Announce> queryAnnounceList(@Param("title")String title,
-                                            @Param("time1") Date time1,
-                                            @Param("time2") Date time2,
-                                            @Param("pageNumber")int pageNumber,
-                                            @Param("pageSize")int pageSize) {
+    public List<Announce> queryAnnounceList(String title,
+                                             Date time1,
+                                             Date time2,
+                                           int pageNumber,
+                                          int pageSize) {
 
         return announceMapper.queryAnnounceList(title,time1,time2,pageNumber,pageSize);
     }
@@ -33,8 +33,32 @@ public class AnnounceServiceImpl implements AnnounceService {
         return announceMapper.lookAnnounceById(id);
     }
 
+    public int addAnnounce(Announce announce) {
+        if(announce.getState()==2){
+            return announceMapper.insert(announce);
+        }else{
+            return announceMapper.insertSelective(announce);
+        }
+
+    }
+
+    public void updateAnnounceById(int id) {
+        try{
+            announceMapper.updateByPrimaryKey(id);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
-    public void addAnnounce(Announce announce) {
-       // announceMapper.addAnnounce(announce);
+    public int deleteAnnounceById(int id) {
+        return announceMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(Announce record) {
+        record.setState(2);
+        return announceMapper.updateByPrimaryKeySelective(record);
     }
 }

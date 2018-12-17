@@ -13,6 +13,9 @@ public interface AnnounceService {
                                             @Param("pageNumber")int pageNumber,
                                             @Param("pageSize")int pageSize);
     int countAnnounce();
-    Announce lookAnnounceById(@Param("id")int id);
-    void addAnnounce(Announce announce);
+    Announce lookAnnounceById(int id);
+    int addAnnounce(Announce announce);
+    void updateAnnounceById(int id);
+    int deleteAnnounceById(int id);
+    int updateByPrimaryKeySelective(Announce record);
 }

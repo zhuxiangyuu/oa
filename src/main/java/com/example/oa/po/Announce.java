@@ -1,5 +1,7 @@
 package com.example.oa.po;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -11,10 +13,11 @@ public class Announce {
 
     private String title; // 标题
 
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date starttime; // 开始时间
-
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date endtime;// 结束时间
-
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date subtime;// 发布时间
 
     private Integer userid;//发布人
@@ -96,5 +99,20 @@ public class Announce {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Announce{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", starttime=" + starttime +
+                ", endtime=" + endtime +
+                ", subtime=" + subtime +
+                ", userid=" + userid +
+                ", user=" + user +
+                ", content='" + content + '\'' +
+                ", state=" + state +
+                '}';
     }
 }

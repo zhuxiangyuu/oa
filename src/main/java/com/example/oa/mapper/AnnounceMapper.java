@@ -12,15 +12,13 @@ import java.util.List;
 public interface AnnounceMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Announce record);
+    int insert(@Param("announce")Announce announce);
 
-    int insertSelective(Announce record);
-
-    Announce selectByPrimaryKey(Integer id);
+    int insertSelective(Announce announce);
 
     int updateByPrimaryKeySelective(Announce record);
 
-    int updateByPrimaryKey(Announce record);
+    int updateByPrimaryKey(int id);
 
      List<Announce> queryAnnounceList(@Param("title")String title,
                                       @Param("time1") Date time1,
@@ -30,5 +28,4 @@ public interface AnnounceMapper {
 
     int countAnnounce();
     Announce lookAnnounceById(@Param("id")int id);
-    void addAnnounce(@Param("state")int state, @Param("announce")Announce announce);
 }

@@ -10,6 +10,12 @@
   <sql id="Base_Column_List">
     id, name, remark, state
   </sql>
+  <!--查询角色列表 -->
+  <select id="queryRoleList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from role
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

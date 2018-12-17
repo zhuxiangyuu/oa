@@ -1,157 +1,142 @@
 ﻿<!doctype html>
- <html >
- <head>
-   <meta charset="UTF-8">
-   <link rel="stylesheet" href="../../../css/common.css">
-   <link rel="stylesheet" href="../../../css/main.css">
-   <script type="text/javascript" src="../../../js/jquery.min.js"></script>
-   <script type="text/javascript" src="../../../js/colResizable-1.3.min.js"></script>
-   <script type="text/javascript" src="../../../js/common.js"></script>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
 </head>
+<script>
+    // 文档就绪
+    $(function () {
+        // 加载机构部门
+        organization();
+        // 加载角色
+        role();
+    });
+    // 加载机构
+    function organization(){
+        $('#orgid').combobox({
+            url:'/organization/queryOrganizationList',
+            valueField:'id',
+            textField:'name',
+            onLoadSuccess: function (data) {
+                if (data) {
+                    $('#orgid').combobox('setValue',data[0].id);
+                }
+            },
+            onChange:function () {
+                dept();
+            }
+        });
+    }
+    // 加载部门
+    function dept() {
+        $('#deptid').combobox({
+            url:'/dept/queryDeptByOrgId/'+$("#orgid").combobox("getValue"),
+            valueField:'id',
+            textField:'name',
+            onLoadSuccess: function (data) {
+                if (data) {
+                    $('#deptid').combobox('setValue',data[0].id);
+                }
+            }
+        });
+    }
+    // 加载角色
+    function role() {
+        $('#roleid').combobox({
+            url:'/role/queryRoleList',
+            valueField:'id',
+            textField:'name',
+            onLoadSuccess: function (data) {
+                if (data) {
+                    $('#roleid').combobox('setValue',data[0].id);
+                }
+            }
+        });
+    }
+    //
+    // 保存用户
+    function save(){
 
+    }
+</script>
 <body>
-  <div id="forms" class="mt10">
-        <div class="box">
-          <div class="box_border">
-            <div class="box_top"><b class="pl15">添加用户</b></div>
-            <div class="box_center">
-              <form action="list.html" class="jqtransform">
-               <table class="form_table pt15 pb15" width="100%" border="0" cellpadding="0" cellspacing="0">
-                 <tr>
-                  <td class="td_right"><font color="red">*</font>登录名：</td>
-                  <td class=""> 
-                    <input type="text" name="name" class="input-text lh30" size="40">
-                  </td>
-				  </tr>
-				  <tr>
-                  <td class="td_right"><font color="red">*</font>密码：</td><td><input type="password" name="name" class="input-text lh30" size="40"></td>
-                </tr>
-					   <tr>
-						  <td class="td_right"><font color="red">*</font>真实姓名：</td>
-						  <td class=""> 
-							<input type="text" name="name" class="input-text lh30" size="40">
-						  </td>
-					  </tr>
-					   <tr>
-						  <td class="td_right"><font color="red">*</font>身份证：</td>
-						  <td class=""> 
-							<input type="text" name="name" class="input-text lh30" size="40">
-						  </td>
-					  </tr>
-					   <tr>
-						  <td class="td_right"><font color="red">*</font>年龄：</td>
-						  <td class=""> 
-							<input type="text" name="name" class="input-text lh30" size="10">
-						  </td>
-					  </tr>
-                                          <tr>
-						  <td class="td_right"><font color="red">*</font>手机号：</td>
-						  <td class=""> 
-							<input type="text" name="name" class="input-text lh30" size="10">
-						  </td>
-					  </tr>
-				<tr>
-                  <td class="td_right"><font color="red">*</font>性别：</td>
-                  <td class="">
-                    <input type="radio" name="sex" checked> 男
-                    <input type="radio" name="sex"> 女
-                  </td>
-				  </tr>
-
-
-                <tr >
-                  <td class="td_right"><font color="red">*</font>机构部门：</td>
-                  <td class="">
- 
-                    <span class="fl">
-                      <div class="select_border"> 
-                        <div class="select_containers "> 
-                        <select name="" class="select">
-						<option>选择机构</option>
-                        <option>华电</option> 
-                        <option>职业教育学院</option> 
-                        </select> 
-                        </div> 
-                      </div> 
-                    </span>&nbsp;&nbsp;&nbsp;
-					 <span class="f2">
-                      <div class="select_border"> 
-                        <div class="select_containers "> 
-                        <select name="" class="select">
-						<option>选择部门</option>
-                        <option>研发部</option> 
-                        <option>人事部</option>
-						<option>业务部</option>
-                        </select> 
-                        </div> 
-                      </div> 
-                    </span>
-                  </td>
-                 </tr>
-                 
-				  
-				  <tr >
-                  <td class="td_right"><font color="red">*</font>职称：</td>
-                  <td class="">
- 
-                    <span class="fl">
-                      <div class="select_border"> 
-                        <div class="select_containers "> 
-                        <select name="" class="select"> 
-                        <option>普通职员</option> 
+<div id="page" class="easyui-panel" title="<center>添加用户</center>">
+    <form id="form" method="post">
+        <table style="margin:0 auto " cellpadding="10">
+            <tr>
+                <td><label for="loginname">登录名:</label></td>
+                <td><input class="easyui-textbox" type="text" id="loginname" name="loginname" style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td><label for="password">登录密码:</label></td>
+                <td><input class="easyui-textbox" type="text" id="password" name="password" style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td><label for="name">真实姓名：</label></td>
+                <td><input class="easyui-textbox" type="text" id="name" name="name" style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td><label for="idcard">身份证：</label></td>
+                <td><input class="easyui-textbox" type="text" id="idcard" name="idcard" style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td><label for="age">年龄：</label></td>
+                <td><input class="easyui-textbox" type="text" id="age" name="age" style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td><label for="phone">手机号：</label></td>
+                <td><input class="easyui-textbox" type="text" id="phone" name="phone" style="width:150px;"/></td>
+            </tr>
+            <tr>
+                <td>性别：</td>
+                <td>
+                    <input type="radio" id="sex1" name="sex" value="1" checked><label for="sex1">男</label></input>
+                    <input type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></input>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="orgid">机构部门：</label></td>
+                <td>
+                    <select id="orgid" class="easyui-combobox" name="orgid" style="width:150px;"></select>
+                    <select id="deptid"  class="easyui-combobox" name="deptid" style="width:150px;"></select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="job">职称：</label></td>
+                <td>
+                    <select id="job"  class="easyui-combobox" name="job" style="width:150px;">
+                        <option>普通用户</option>
+                        <option>助理</option>
                         <option>部门经理</option>
-						<option>助理</option>
-						<option>总监</option> 
-                        </select> 
-                        </div> 
-                      </div> 
-                    </span>
-                  </td>
-                 </tr>
-				  <tr >
-                  <td class="td_right"><font color="red">*</font>角色：</td>
-                  <td class="">
- 
-                    <span class="fl">
-                      <div class="select_border"> 
-                        <div class="select_containers "> 
-                        <select name="" class="select"> 
-                        <option>普通职员</option> 
-                        <option>人事专员</option>
-						<option>系统管理员</option>
-						<option>部门领导</option> 
-                        </select> 
-                        </div> 
-                      </div> 
-                    </span>
-                  </td>
-                 </tr>
-                 <tr>
-                  <td class="td_right"><font color="red">*</font>状态：</td>
-                  <td class="">
-                    <input type="radio" name="status" checked> 启用
-                    <input type="radio" name="status"> 冻结
-                  </td>
-                 </tr>
-                 
-                <tr>
-                  <td class="td_right">上传头像：</td>
-                  <td class=""><input type="file" name="file" class="input-text lh30" size="10"></td>
-                 </tr>
-                 <tr>
-                   <td class="td_right">&nbsp;</td>
-                   <td class="">
-                     <input type="submit" name="button" class="btn btn82 btn_save2" value="保存"> 
-                    <input type="button" name="button" class="btn btn82 btn_res" onclick="location.href='javascript:history.go(-1)'" value="返回"> 
-                   </td>
-                 </tr>
-               </table>
-               </form>
-            </div>
-          </div>
-        </div>
-     </div>
-   </div> 
+                        <option>总监</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="roleid">角色：</label></td>
+                <td>
+                    <select id="roleid"  class="easyui-combobox" name="roleid" style="width:150px;"></select>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="state1">状态:</label></td>
+                <td>
+                    <input type="radio" id="state1" name="state" value="1" checked><label for="state1">启用</label></input>
+                    <input type="radio" id="state2" name="state" value="2"><label for="state2">禁用</label></input>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="save()">保存</a>
+        &emsp;&emsp;
+        <a th:href="@{/page/system/user/list}" class="easyui-linkbutton">返回</a>
+    </div>
+</div>
 </body>
-
 </html>

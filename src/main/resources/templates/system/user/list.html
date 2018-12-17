@@ -85,11 +85,13 @@
                                 width : 80,
                                 formatter : function(value, row, index) {
                                     var text;
+
                                     if(row.state==1){
-                                        return '<a href="">冻结</a> | <a href="">编辑</a> | <a href="">删除</a>';
+                                        text = '<a href="">冻结</a> |';
                                     }else{
-                                        return '<a href="">启用</a> | <a href="">编辑</a> | <a href="">删除</a>';
+                                        text = '<a href="">启用</a> |';
                                     }
+                                    return text+' <a href="/page/system/user/edit">编辑</a> | <a href="">删除</a>';
                                 }
                             } ] ],
                         toolbar : [ {
@@ -129,9 +131,9 @@
 <!-- 搜索列表 -->
 <div style="text-align: center">
     <label for="searchLoginname">登录名：</label>
-    <input  name="searchLoginname" class="easyui-searchbox" data-options="prompt:'请输入登录名',searcher:reloadtable" style="width:10%" id="searchLoginname">
+    <input  name="searchLoginname" class="easyui-searchbox" data-options="prompt:'请输入登录名',searcher:reloadtable" style="width:20%" id="searchLoginname">
     <label for="searchName">真实姓名：</label>
-    <input  name="searchName" class="easyui-searchbox" data-options="prompt:'请输入真实姓名',searcher:reloadtable" style="width:10%"id="searchName">
+    <input  name="searchName" class="easyui-searchbox" data-options="prompt:'请输入真实姓名',searcher:reloadtable" style="width:20%"id="searchName">
 </div>
 <p></p>
 <!-- 用户列表 -->

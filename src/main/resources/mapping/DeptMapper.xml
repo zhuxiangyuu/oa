@@ -8,6 +8,17 @@
   <sql id="Base_Column_List">
     id, name
   </sql>
+  <!--根据机构查询机构下面的部门 -->
+  <select id="queryDeptByOrgId" resultMap="BaseResultMap">
+    SELECT
+           dept.`name`,
+           dept.id
+    FROM
+         org_dept
+           INNER JOIN dept ON org_dept.deptId = dept.id
+    WHERE
+            org_dept.orgId = ${orgId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

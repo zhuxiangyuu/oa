@@ -20,33 +20,63 @@ public class UserController {
     @Resource
     UserService userService;
 
+    /**
+     * 用户登录
+     *
+     * @param username
+     * @param pwd
+     * @param session
+     * @return
+     */
     @RequestMapping("/login")
     public String login(String username, String pwd, HttpSession session) {
-        User user = userService.queryUserByUsernameAndPwd(username,pwd);
-        if(user!=null){
+        User user = userService.queryUserByUsernameAndPwd(username, pwd);
+        if (user != null) {
             // 用户名密码输入正确
-            session.setAttribute("user",user);
+            session.setAttribute("user", user);
             return "/index";
-        }else{
+        } else {
             // 用户名密码输入错误
             return "/login";
         }
     }
+
+    /**
+     * 查询用户列表
+     *
+     * @param user
+     * @param page
+     * @param rows
+     * @return
+     */
     @RequestMapping("/queryUserList")
     @ResponseBody
-    public String queryUserList(User user,Integer page, Integer rows){
-        System.out.println("起始条数："+(page - 1) * rows+"一页几条:"+rows);
-        List<User> list = userService.queryUserList((page - 1) * rows, rows,user);
-        for (User users :
-                list) {
-            System.out.println("用户名："+users.getName());
-        }
-        System.out.println("总条数："+userService.countUser(user));
-        Map<String,Object> map = new HashMap();
+    public String queryUserList(User user, Integer page, Integer rows) {
+        List<User> list = userService.queryUserList((page - 1) * rows, rows, user);
+        Map<String, Object> map = new HashMap();
         map.put("total", userService.countUser(user));
         map.put("rows", list);
         String jsonString = JSON.toJSONString(map);
-        System.out.println(jsonString);
         return jsonString;
+    }
+
+    public String updateUserState() {
+        return "";
+    }
+
+    public String updateUserInfo() {
+        return "";
+    }
+
+    public String addUser() {
+        return "";
+    }
+
+    public String deleteUser() {
+        return "";
+    }
+
+    public String queryUserInfoByUserId() {
+        return "";
     }
 }

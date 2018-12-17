@@ -8,6 +8,12 @@
   <sql id="Base_Column_List">
     id, name
   </sql>
+  <!--查询机构列表 -->
+  <select id="queryOrganizationList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from organization
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

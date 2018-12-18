@@ -24,5 +24,4 @@ public interface DeptMapper {
 
     List<Dept> queryDeptByOrgId(@Param("orgId") Integer orgId);
 
-    Dept queryDeptByUserId(@Param("userId") Integer userId);
 }

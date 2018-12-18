@@ -19,17 +19,6 @@
     WHERE
             org_dept.orgId = ${orgId}
   </select>
-  <!--根据用户ID查询部门 -->
-  <select id="queryDeptByUserId" resultMap="BaseResultMap">
-    SELECT
-           D.id,
-           D.`name`
-    FROM
-         dept AS D
-           INNER JOIN `user` AS U ON D.id = U.deptId
-    WHERE
-            U.id = ${userId}
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -30,12 +30,12 @@ public class DeptController {
     /**
      * 查询当前登录人的部门
      *
-     * @param userid
+     * @param id
      * @return
      */
-    @RequestMapping("/queryDeptByUserId/{userid}")
+    @RequestMapping("/selectByPrimaryKey/{id}")
     @ResponseBody
-    public String queryDeptByUserId(@PathVariable Integer userid) {
-        return JSON.toJSONString(deptService.queryDeptByUserId(userid));
+    public String selectByPrimaryKey(@PathVariable Integer id) {
+        return JSON.toJSONString(deptService.selectByPrimaryKey(id));
     }
 }

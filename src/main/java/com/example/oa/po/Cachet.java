@@ -19,7 +19,7 @@ public class Cachet {
 
     private Dept dept;
 
-    private Integer type;// 用章类型
+    private Integer type;// 用章类型 1:公司公章 2：财务用章 3：人事用章
 
     private String remark;// 备注
 

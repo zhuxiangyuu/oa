@@ -17,7 +17,9 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Dept queryDeptByUserId(Integer userId) {
-        return deptMapper.queryDeptByUserId(userId);
+    public Dept selectByPrimaryKey(Integer id) {
+        return deptMapper.selectByPrimaryKey(id);
     }
+
+
 }

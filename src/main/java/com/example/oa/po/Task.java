@@ -14,7 +14,7 @@ public class Task {
 
     private Integer taskid;// 任务编号( 任务类型+你任务的ID）
 
-    private String name;// 任务名称
+    private String name;// 任务名称（用户名称+某某申请）
 
     private Integer userid;// 任务申请人
 

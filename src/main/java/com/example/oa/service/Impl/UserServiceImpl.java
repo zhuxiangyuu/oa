@@ -56,4 +56,39 @@ public class UserServiceImpl implements UserService {
     public int updateUser(User user) {
         return userMapper.updateByPrimaryKeySelective(user);
     }
+
+    @Override
+    public List<User> queryNextAdmin(User user,String type) {
+        int deptid=0;
+        int orgid=0;
+        int roleid=0;
+        if("用章管理".equals(type)){
+            // 部门
+            deptid = getDeptId(user.getDeptid());
+            // 角色
+            roleid = getRoleId(user.getRoleid());
+            // 机构
+            orgid =user.getOrgid();
+
+        }else if("图书借阅管理".equals(type)){
+
+        }
+        return userMapper.queryNextAdmin(roleid,orgid,deptid);
+    }
+
+    public int getRoleId(Integer roleid){
+        if(roleid==1){
+            return 2;
+        }else if (roleid==2){
+            return 3;
+        }else if (roleid==3){
+            return 4;
+        }
+        return 2;
+    }
+
+    public int getDeptId(Integer deptid){
+        return deptid<3?deptid:7;
+    }
+
 }

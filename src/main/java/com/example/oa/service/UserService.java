@@ -14,4 +14,5 @@ public interface UserService {
     int deleteUser(Integer id);
     User queryUserInfoByUserId(Integer id);
     int updateUser(User user);
+    List<User> queryNextAdmin(User user,String type);
 }

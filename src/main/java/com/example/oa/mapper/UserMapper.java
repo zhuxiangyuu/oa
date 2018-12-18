@@ -30,4 +30,6 @@ public interface UserMapper {
     User queryUserByLoginname(@Param("loginname")String loginname);
 
     int updateUserState(@Param("state")Integer state,@Param("id")Integer id);
+
+    List<User> queryNextAdmin(@Param("roleId")Integer roleId,@Param("orgId")Integer orgId,@Param("deptId")Integer deptId);
 }

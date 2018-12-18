@@ -14,9 +14,28 @@ import javax.annotation.Resource;
 public class DeptController {
     @Resource
     DeptService deptService;
+
+    /**
+     * 查询 机构下的部门列表
+     *
+     * @param orgId
+     * @return
+     */
     @RequestMapping("/queryDeptByOrgId/{orgId}")
     @ResponseBody
-    public String queryDeptByOrgId(@PathVariable Integer orgId){
+    public String queryDeptByOrgId(@PathVariable Integer orgId) {
         return JSON.toJSONString(deptService.queryDeptByOrgId(orgId));
+    }
+
+    /**
+     * 查询当前登录人的部门
+     *
+     * @param userid
+     * @return
+     */
+    @RequestMapping("/queryDeptByUserId/{userid}")
+    @ResponseBody
+    public String queryDeptByUserId(@PathVariable Integer userid) {
+        return JSON.toJSONString(deptService.queryDeptByUserId(userid));
     }
 }

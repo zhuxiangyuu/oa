@@ -23,4 +23,6 @@ public interface DeptMapper {
     int updateByPrimaryKey(Dept record);
 
     List<Dept> queryDeptByOrgId(@Param("orgId") Integer orgId);
+
+    Dept queryDeptByUserId(@Param("userId") Integer userId);
 }

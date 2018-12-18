@@ -15,4 +15,9 @@ public class DeptServiceImpl implements DeptService {
     public List<Dept> queryDeptByOrgId(Integer orgId) {
         return deptMapper.queryDeptByOrgId(orgId);
     }
+
+    @Override
+    public Dept queryDeptByUserId(Integer userId) {
+        return deptMapper.queryDeptByUserId(userId);
+    }
 }

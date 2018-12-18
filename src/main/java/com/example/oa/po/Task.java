@@ -10,8 +10,9 @@ public class Task {
     private Integer id;
 
     private Integer type;// 任务类型
+    // (1.会议室管理 2.用户车管理 3.用章管理 4.图书借阅申请 5.名片印制流程 6.请假申请 7.出差申请 8.收入证明流程 )
 
-    private Integer taskid;// 任务编号
+    private Integer taskid;// 任务编号( 任务类型+你任务的ID）
 
     private String name;// 任务名称
 

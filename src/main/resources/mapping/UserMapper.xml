@@ -108,7 +108,7 @@
   </select>
   <!-- 用户登录-->
   <select id="queryUserByUsernameAndPwd" resultMap="BaseResultMap">
-    select  * from user where loginName = #{username} and password = #{pwd}
+    select  * from user where loginName = #{username} and password = #{pwd} and state = '1'
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.example.oa.po.User">

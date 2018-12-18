@@ -12,4 +12,6 @@ public interface UserService {
     int addUser(User user);
     int updateUserState(Integer state,Integer id);
     int deleteUser(Integer id);
+    User queryUserInfoByUserId(Integer id);
+    int updateUser(User user);
 }

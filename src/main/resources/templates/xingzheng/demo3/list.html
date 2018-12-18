@@ -13,11 +13,12 @@
             //var userid =   $("#userid").val();
             var deptid =   $("#deptid").val();
             $.ajax({
-               url:"/cachet/queryDeptNameById/"+deptid,
-                dataType:"text",
+               url:"/dept/selectByPrimaryKey/"+deptid,
+                dataType:"json",
                 type:"post",
                 success : function(data){
-                    deptname.val("data");
+
+                    $("#deptname").append("<span>"+data.name+"</span>");
                 },
                 error : function(){
                    alert("错误");
@@ -50,8 +51,8 @@
               </tr>
               <tr>
                   <td>部门:</td>
-                  <td>
-                      <span id="deptname"></span>
+                  <td id="deptname">
+
                   </td>
               </tr>
               <tr>

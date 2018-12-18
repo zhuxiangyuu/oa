@@ -1,7 +1,6 @@
 package com.example.oa.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.example.oa.po.User;
 import com.example.oa.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -42,6 +41,12 @@ public class UserController {
         }
     }
 
+    /**
+     * 验证登录名是否重复
+     *
+     * @param loginname
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/queryUserByLoginname")
     public Boolean queryUserByLoginname(String loginname) {
@@ -64,20 +69,28 @@ public class UserController {
         Map<String, Object> map = new HashMap();
         map.put("total", userService.countUser(user));
         map.put("rows", list);
-        String jsonString = JSON.toJSONString(map);
-        return jsonString;
+        return JSON.toJSONString(map);
     }
 
+    /**
+     * 更新用户状态（启用/禁用）
+     *
+     * @param state
+     * @param id
+     * @return
+     */
     @RequestMapping("/updateUserState/{state}/{id}")
     public String updateUserState(@PathVariable Integer state, @PathVariable Integer id) {
         userService.updateUserState(state, id);
         return "/system/user/list";
     }
 
-    public String updateUserInfo() {
-        return "";
-    }
-
+    /**
+     * 添加用户
+     *
+     * @param user
+     * @return
+     */
     @RequestMapping("/addUser")
     @ResponseBody
     public String addUser(User user) {
@@ -86,27 +99,52 @@ public class UserController {
         return "true";
     }
 
+    /**
+     * 更新用户
+     *
+     * @param user
+     * @param id
+     * @return
+     */
     @RequestMapping("/updateUser/{id}")
     @ResponseBody
-    public String updateUser(User user,@PathVariable Integer id) {
+    public String updateUser(User user, @PathVariable Integer id) {
         user.setId(id);
         user.setJob(setUserJob(user.getJob()));
         userService.updateUser(user);
         return "true";
     }
 
+    /**
+     * 删除用户
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return "/system/user/list";
     }
 
+    /**
+     * 根据用户ID查询用户信息
+     *
+     * @param id
+     * @return
+     */
     @ResponseBody
     @RequestMapping("/queryUserInfoByUserId")
     public String queryUserInfoByUserId(Integer id) {
         return JSON.toJSONString(userService.queryUserInfoByUserId(id));
     }
 
+    /**
+     * 判断用户职称
+     *
+     * @param number
+     * @return
+     */
     public String setUserJob(String number) {
         if ("1".equals(number)) {
             return "普通用户";

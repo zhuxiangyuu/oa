@@ -98,7 +98,7 @@
                 AND U.name like concat( '%',#{user.name},'%')
             </if>
         </where>
-        ORDER BY U.id
+        ORDER BY U.id desc
         LIMIT ${pageNumber}, ${pageSize}
     </select>
     <!--查询用户总数-->

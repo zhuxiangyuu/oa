@@ -28,7 +28,7 @@ public class Task {
 
     private Date subtime;// 审核时间
 
-    private Integer state;// 审核状态
+    private Integer state;// 审核状态 (1.待审核(审核中) 2.审核通过 3.审核不通过)
 
     public Integer getId() {
         return id;

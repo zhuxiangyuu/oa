@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 
 @Controller
 @RequestMapping("/organization")
-public class organizationController {
+public class OrganizationController {
     @Resource
     OrganizationService organizationService;
 

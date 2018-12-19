@@ -21,6 +21,18 @@ public class UserController {
     UserService userService;
 
     /**
+     * 用户退出
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping("/out")
+    public String out(HttpSession session) {
+        session.removeAttribute("user");
+        return "/login";
+    }
+
+    /**
      * 用户登录
      *
      * @param username

@@ -1,132 +1,146 @@
 ﻿<!doctype html>
- <html lang="zh-CN">
- <head>
-   <meta charset="UTF-8">
-   <link rel="stylesheet" href="../../../css/common.css">
-   <link rel="stylesheet" href="../../../css/main.css">
-   <script type="text/javascript" src="../../../js/jquery.min.js"></script>
-   <script type="text/javascript" src="../../../js/colResizable-1.3.min.js"></script>
-   <script type="text/javascript" src="../../../js/common.js"></script>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        // 文档就绪
+        $(function () {
+            queryTaskList();
+        });
 
-  <script type="text/javascript">
-    function del(){
-	  confirm("确认删除");
-	}
-	function delall(){
-	  confirm("确认删除");
-	}
-	function excel(){
-	  confirm("确认导出");
-	}
-  </script>
+        // 查询用户列表
+        function queryTaskList() {
+            // esayUI
+            $("#tab")
+                .datagrid(
+                    {
+                        url: "/task/queryTaskSelective",
+                        pagination: true,//显示分页工具栏
+                        fitColumns: true,// 自动扩展大小
+                        title: "待处理任务列表",// 标题
+                        pageList: [5, 10, 15, 20],// 列表记录数的下拉框值
+                        pageSize: 5,// 默认每页记录数
+                        queryParams: queryParams(),//传递参数（*）
+                        columns : [ [
+                            {
+                                field : 'name',
+                                title : '任务名称',
+                                align : 'center',
+                                width :100
+                            },
+                            {
+                                field : 'starttime',
+                                title : '发起时间',
+                                align : 'center',
+                                width : 100
+                            },
+                            {
+                                field : 'user',
+                                title : '发起人',
+                                align : 'center',
+                                width : 100,
+                                formatter : function(value, row, index) {
+                                    var text = value.name;
+                                    return text;
+                                }
+                            },{
+                                field : 'subtime',
+                                title : '最后审批时间',
+                                align : 'center',
+                                width : 100
+                            },{
+                                field : 'state',
+                                title : '状态',
+                                align : 'center',
+                                width : 100,
+                                formatter : function(value, row, index) {
+                                    if(value==1){
+                                        return '审核中';
+                                    }else if (value==2) {
+                                        return '审核通过';
+                                    }else {
+                                        return '审核不通过';
+                                    }
+                                }
+                            },
+                            {
+                                field : 'id',
+                                title : "操作",
+                                align : 'center',
+                                width : 80,
+                                formatter : function(value, row, index) {
+                                    return '<a href="/task/look/"'+value+'>查看</a>'
+                                }
+                            } ] ]
+                    });
+            // 搜索按钮绑定事件
+            $("#search").click(function () {
+                $('#tab').datagrid("load", queryParams());   //点击搜索
+            });
+            dispalyPager();
+        }
+
+        // 刷新表格
+        function reloadtable() {
+            $('#tab').datagrid("load", queryParams());   //点击搜索
+        }
+
+        // 处理参数列表分页工具栏
+        function dispalyPager() {
+            $("#tab").datagrid("getPager").pagination({
+                beforePageText: '当前页',
+                afterPageText: '共{pages}',
+                displayMsg: '当前显示从{from}到{to}共{total}条记录'
+            });
+        }
+
+        //得到查询的参数
+        function queryParams() {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                time1: $('#searchTime1').datebox('getValue'),
+                time2: $('#searchTime2').datebox('getValue'),
+                type: $("#searchType").combobox("getValue"),
+                userid: $("#user").val()
+            };
+            return temp;
+        }
+
+        //刷新表格
+        function reloadtable() {
+            $('#tab').datagrid("load", queryParams());   //点击搜索
+        }
+    </script>
 </head>
 <body>
-<form action="list.html" method="post">
-     <div id="search_bar" class="mt10">
-       <div class="box">
-          <div class="box_border">
-            <div class="box_top"><b class="pl15">我的申请</b></div>
-            <div class="box_center pt10 pb10">
-              <table class="form_table" border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td>发起时间</td>
-                  <td><input type="text" name="name" class="input-text lh25" size="10">to
-				  <input type="text" name="name" class="input-text lh25" size="10"></td>                
-                 
-                  <td>任务类型</td>
-                  <td><select class="input-text lh25"><option>请选择</option><option>请假申请</option><option>出差申请</option>
-				  <option>用车管理</option><option>用章管理</option><option>图书借阅申请</option>
-				  <option>名片印刷申请</option><option>收入证明</option></select></td>
-                   <td><input type="submit" name="button" class="btn btn82 btn_search" value="查询">
-			    <input type="button" name="button" class="btn btn82 btn_recycle" value="清空"></td>
-                </tr>
-               
-              </table>
-            </div>
-        
-            
-			</div>  </div>
-			</form>
-
- <div id="table" class="mt10">
-        <div class="box span10 oh">
-              <table width="100%" border="0" cellpadding="0" cellspacing="0" class="list_table">
-                <tr>
-				   <th> <input type="checkbox"></th>
-                   <th>任务名称</th>
-                   <th>发起时间</th>
-                   <th>发起人</th>
-                   <th>最后审批时间</th>
-				   <th>状态</th>
-				   <th>操作</th>
-                    </tr>
-                <tr class="tr" align="center">
-                   <td class="td_center"><input type="checkbox"></td>
-                   <td><a href="look.html">张三请假申请</a></td>
-                   <td>2015-12-10 20:10:00</td>
-                   <td>张三</td>
-				   <td>2015-12-13 20:10:00</td>
-                   <td>审核通过</td>
-				   <td>
-					  <a href="look.html">查看</a> 
-				   </td>
-                 </tr>
-				   <tr class="tr" align="center">
-                   <td class="td_center"><input type="checkbox"></td>
-                   <td><a href="look1.html">张三用车申请</a></td>
-                   <td>2015-12-10 20:10:00</td>
-                   <td>张三</td>
-				   <td>2015-10-12 20:10:30</td>
-                   <td>审核不通过</td>
-				   <td>
-				     
-					  <a href="look1.html">查看</a> 
-				   </td>
-                 </tr>
-				  <tr class="tr" align="center">
-                   <tr class="tr" align="center">
-                   <td class="td_center"><input type="checkbox"></td>
-                   <td><a href="look.html">张三图书借阅申请</a></td>
-                   <td>2015-12-10 20:10:00</td>
-                   <td>张三</td>
-				   <td>2015-12-11 10:00:00</td>
-                   <td>审核中</td>
-				   <td>
-					  <a href="look.html">查看</a> 
-				   </td>
-                 </tr>
-
-
-
-                
-               <tr>
-			   <td colspan="2"><input type="button" name="button" class="btn btn82 btn_del" value="删除" onclick="delall()">
-			    <input type="button" name="button"  class="btn btn82 btn_export" value="导出" onclick="excel()">
-				</td>
-				<td colspan="5" align="right">
-				     <div class="page mt10">
-						<div class="pagination">
-						  <ul >
-							  <li class="first-child"><a href="#">首页</a></li>
-							  <li class=""><span>上一页</span></li>
-							  <li class="active"><span>1</span></li>
-							  <li><a href="#">2</a></li>
-							  <li><a href="#">3</a></li>
-							  <li><a href="#">4</a></li>
-							  <li><a href="#">下一页</a></li>
-							  <li ><a href="#">末页</a></li>
-							   <li ><span>共3条数据</span></li>
-					     <li ><span>共5页</span></li>
-						  </ul>
-						</div>
-                     </div>
-				</td>
-			   </tr>
-              </table>			  
-		
-             
-        </div>
-     </div>
-
+<!-- 搜索列表 -->
+<div style="text-align: center">
+    <label for="searchTime1">发起时间：</label>
+    <input name="searchTime1" class="easyui-datebox" id="searchTime1">&emsp; to
+    <input name="searchTime2" class="easyui-datebox" id="searchTime2">
+    <label for="searchType">任务类型：</label>
+    <select id="searchType" class="easyui-combobox" name="searchType" style="width:150px;">
+        <option value="0">请选择</option>
+        <option value="1">会议室申请</option>
+        <option value="2">用车申请</option>
+        <option value="3">用章申请</option>
+        <option value="4">图书借阅申请</option>
+        <option value="5">名片印制申请</option>
+        <option value="6">请假申请</option>
+        <option value="7">出差申请</option>
+        <option value="8">收入证明申请</option>
+    </select>
+    <input type="hidden" id="user" th:value="${session.user.id}"/>
+    <!--查询按钮 -->
+    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: 0px;" iconCls="icon-search"
+       id="search">查询</a>
+</div>
+<p></p>
+<!-- 任务列表 -->
+<table id="tab"></table>
 </body>
 </html>

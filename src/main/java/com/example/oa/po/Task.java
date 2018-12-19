@@ -1,11 +1,17 @@
 package com.example.oa.po;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
  * 任务表
  */
 public class Task {
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private Date time1;
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    private Date time2;
 
     private Integer id;
 
@@ -23,9 +29,9 @@ public class Task {
     private Integer adminid;// 任务审核人
 
     private User admin;
-
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date starttime;// 发起时间
-
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date subtime;// 审核时间
 
     private Integer state;// 审核状态 (1.待审核(审核中) 2.审核通过 3.审核不通过)
@@ -116,5 +122,21 @@ public class Task {
 
     public void setAdmin(User admin) {
         this.admin = admin;
+    }
+
+    public Date getTime1() {
+        return time1;
+    }
+
+    public void setTime1(Date time1) {
+        this.time1 = time1;
+    }
+
+    public Date getTime2() {
+        return time2;
+    }
+
+    public void setTime2(Date time2) {
+        this.time2 = time2;
     }
 }

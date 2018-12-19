@@ -5,6 +5,8 @@ import com.example.oa.po.Task;
 import java.util.List;
 
 public interface TaskService {
-    List<Task> queryTaskByStateAndUser(Integer pageNumber, Integer pageSize, Task task);
-    int countTaskByStateAndUser(Task task);
+    List<Task> queryTaskSelective(Integer pageNumber, Integer pageSize, Task task);
+    int countTaskSelective(Task task);
+    int updateTaskState(Integer state,Integer id);
+    String getTaskPage(Integer id);
 }

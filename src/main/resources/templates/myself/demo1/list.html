@@ -1,117 +1,149 @@
 ﻿<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
- <head>
-   <meta charset="UTF-8">
-     <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
-     <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
-     <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
-     <script th:src="@{/js/jquery-1.12.4.js}"></script>
-     <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
-     <script>
-         // 文档就绪
-         $(function () {
-             queryTaskList();
-         });
-         // 查询用户列表
-         function queryTaskList() {
-             // esayUI
-             $("#tab")
-                 .datagrid(
-                     {
-                         url : "/task/queryTaskByStateAndUser",
-                         pagination : true,//显示分页工具栏
-                         fitColumns : true,// 自动扩展大小
-                         title : "待处理任务列表",// 标题
-                         pageList : [ 5, 10, 15, 20 ],// 列表记录数的下拉框值
-                         pageSize : 5,// 默认每页记录数
-                         queryParams : queryParams(),//传递参数（*）
-                         columns : [ [
-                             {
-                                 field : 'name',
-                                 title : '任务名称',
-                                 align : 'center'
-                             },
-                             {
-                                 field : 'starttime',
-                                 title : '发起时间',
-                                 align : 'center'
-                             },
-                             {
-                                 field : 'user',
-                                 title : '发起人',
-                                 align : 'center',
-                                 formatter : function(value, row, index) {
-                                     var text = value.name;
-                                     return text;
-                                 }
-                             }, {
-                                 field : 'subtime',
-                                 title : '审核时间',
-                                 align : 'center'
-                             },{
-                                 field : '待审核',
-                                 title : '状态',
-                                 align : 'center',
-                                 width : 50
-                             },
-                             {
-                                 field : 'id',
-                                 title : "操作",
-                                 align : 'center',
-                                 width : 80,
-                                 formatter : function(value, row, index) {
-                                     return ' <a href="/task/look/'+id+'">查看</a> | <a href="/task/updateTaskState/2/'+id+'">通过</a> | <a href="/task/updateTaskState/3/'+id+'">驳回</a>';
-                                 }
-                             } ] ]
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        // 文档就绪
+        $(function () {
+            queryTaskList();
+        });
 
-                     });
-             // 搜索按钮绑定事件
-             $("#search").click(function () {
-                 $('#tab').datagrid("load",queryParams());   //点击搜索
-             });
-             dispalyPager();
-         }
-         // 刷新表格
-         function reloadtable(){
-             $('#tab').datagrid("load",queryParams());   //点击搜索
-         }
-         // 处理参数列表分页工具栏
-         function dispalyPager() {
-             $("#tab").datagrid("getPager").pagination({
-                 beforePageText : '当前页',
-                 afterPageText : '共{pages}',
-                 displayMsg : '当前显示从{from}到{to}共{total}条记录'
-             });
-         }
-         //得到查询的参数
-         function queryParams() {
-             var temp = {
-                 time1:$('#searchTime1').datebox('getValue'),
-                 time2:$('#searchTime2').datebox('getValue'),
-                 type:$("#searchType").combobox("getValue"),
-                 userid:$("#user").val()
-             };
-             return temp;
-         }
-         //刷新表格
-         function reloadtable(){
-             $('#tab').datagrid("load",queryParams());   //点击搜索
-         }
-     </script>
+        // 查询用户列表
+        function queryTaskList() {
+            // esayUI
+            $("#tab")
+                .datagrid(
+                    {
+                        url: "/task/queryTaskSelective",
+                        pagination: true,//显示分页工具栏
+                        fitColumns: true,// 自动扩展大小
+                        title: "待处理任务列表",// 标题
+                        pageList: [5, 10, 15, 20],// 列表记录数的下拉框值
+                        pageSize: 5,// 默认每页记录数
+                        queryParams: queryParams(),//传递参数（*）
+                        columns : [ [
+                            {
+                                field : 'name',
+                                title : '任务名称',
+                                align : 'center',
+                                width :100
+                            },
+                            {
+                                field : 'starttime',
+                                title : '发起时间',
+                                align : 'center',
+                                width : 100
+                            },
+                            {
+                                field : 'user',
+                                title : '发起人',
+                                align : 'center',
+                                width : 100,
+                                formatter : function(value, row, index) {
+                                    var text = value.name;
+                                    return text;
+                                }
+                            }, {
+                                field : 'type',
+                                title : '类型',
+                                align : 'center',
+                                width : 80,
+                                formatter : function(value, row, index) {
+                                    if(value==1){
+                                        return "会议室申请";
+                                    }else if(value==2){
+                                        return "用车申请";
+                                    }else if(value==3){
+                                        return "用章申请";
+                                    }else if(value==4){
+                                        return "图书借阅申请";
+                                    }else if(value==5){
+                                        return "名片印制申请";
+                                    }else if(value==6){
+                                        return "请假申请";
+                                    }else if(value==7){
+                                        return "出差申请";
+                                    }else {
+                                        return "收入证明申请";
+                                    }
+                                }
+                            },
+                            {
+                                field : 'id',
+                                title : "操作",
+                                align : 'center',
+                                width : 80,
+                                formatter : function(value, row, index) {
+                                    return '<a href="/task/look/"'+value+'>查看</a> | <a href="/task/updateTaskState/2/'+value+'" >同意</a> | <a href="/task/updateTaskState/3/'+value+'" >驳回</a>'
+                                }
+                            } ] ]
+                    });
+            // 搜索按钮绑定事件
+            $("#search").click(function () {
+                $('#tab').datagrid("load", queryParams());   //点击搜索
+            });
+            dispalyPager();
+        }
+
+        // 刷新表格
+        function reloadtable() {
+            $('#tab').datagrid("load", queryParams());   //点击搜索
+        }
+
+        // 处理参数列表分页工具栏
+        function dispalyPager() {
+            $("#tab").datagrid("getPager").pagination({
+                beforePageText: '当前页',
+                afterPageText: '共{pages}',
+                displayMsg: '当前显示从{from}到{to}共{total}条记录'
+            });
+        }
+
+        //得到查询的参数
+        function queryParams() {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                time1: $('#searchTime1').datebox('getValue'),
+                time2: $('#searchTime2').datebox('getValue'),
+                type: $("#searchType").combobox("getValue"),
+                adminid: $("#user").val(),
+                state: 1
+            };
+            return temp;
+        }
+
+        //刷新表格
+        function reloadtable() {
+            $('#tab').datagrid("load", queryParams());   //点击搜索
+        }
+    </script>
 </head>
 <body>
 <!-- 搜索列表 -->
 <div style="text-align: center">
     <label for="searchTime1">发起时间：</label>
-    <input  name="searchTime1" class="easyui-datebox" id="searchTime1">&emsp;
-    <input  name="searchTime2" class="easyui-datebox" id="searchTime2">
+    <input name="searchTime1" class="easyui-datebox" id="searchTime1">&emsp;
+    <input name="searchTime2" class="easyui-datebox" id="searchTime2">
     <label for="searchType">任务类型：</label>
     <select id="searchType" class="easyui-combobox" name="searchType" style="width:150px;">
         <option value="0">请选择</option>
+        <option value="1">会议室申请</option>
+        <option value="2">用车申请</option>
+        <option value="3">用章申请</option>
+        <option value="4">图书借阅申请</option>
+        <option value="5">名片印制申请</option>
+        <option value="6">请假申请</option>
+        <option value="7">出差申请</option>
+        <option value="8">收入证明申请</option>
     </select>
-    <input type="hidden" id="user" th:value="${session.user.id}" />
+    <input type="hidden" id="user" th:value="${session.user.id}"/>
     <!--查询按钮 -->
-    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: 0px;" iconCls="icon-search" id="search">查询</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: 0px;" iconCls="icon-search"
+       id="search">查询</a>
 </div>
 <p></p>
 <!-- 任务列表 -->

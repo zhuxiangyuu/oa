@@ -27,13 +27,13 @@ public class TaskController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/queryRolePage")
-    public String queryTaskByStateAndUser(Integer page, Integer rows, Task task){
-        List<Task> list = taskService.queryTaskByStateAndUser((page - 1) * rows, rows, task);
+    @RequestMapping("/queryTaskSelective")
+    public String queryTaskSelective(Integer page, Integer rows, Task task){
+        List<Task> list = taskService.queryTaskSelective((page - 1) * rows, rows, task);
         Map<String, Object> map = new HashMap();
-        map.put("total", taskService.countTaskByStateAndUser(task));
+        map.put("total", taskService.countTaskSelective(task));
         map.put("rows", list);
-        String jsonString = JSON.toJSONString(map);
+        String jsonString = JSON.toJSONStringWithDateFormat(map,"MM/dd/yyyy");
         return jsonString;
     }
 
@@ -44,8 +44,12 @@ public class TaskController {
      */
     @RequestMapping("/look/{id}")
     public String look(@PathVariable Integer id){
-        return "";
+        return taskService.getTaskPage(id);
     }
 
-
+    @RequestMapping("/updateTaskState/{state}/{id}")
+    public String updateTaskState(@PathVariable Integer state,@PathVariable Integer id){
+        taskService.updateTaskState(state,id);
+        return "/myself/demo1/list";
+    }
 }

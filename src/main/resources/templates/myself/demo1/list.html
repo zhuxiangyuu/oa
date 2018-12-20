@@ -68,8 +68,10 @@
                                         return "请假申请";
                                     }else if(value==7){
                                         return "出差申请";
-                                    }else {
+                                    }else if(value==8){
                                         return "收入证明申请";
+                                    }else{
+                                        return "通告申请";
                                     }
                                 }
                             },
@@ -139,6 +141,7 @@
         <option value="6">请假申请</option>
         <option value="7">出差申请</option>
         <option value="8">收入证明申请</option>
+        <option value="9">通告申请</option>
     </select>
     <input type="hidden" id="user" th:value="${session.user.id}"/>
     <!--查询按钮 -->

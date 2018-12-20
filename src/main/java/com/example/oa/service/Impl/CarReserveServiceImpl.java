@@ -24,6 +24,7 @@ public class CarReserveServiceImpl implements CarReserveService {
         try {
             // 添加申请
             carReserveMapper.insertSelective(carReserve);
+            String aa = carReserve.getCarid();
             // 查询刚添加的Id
             int taskId = carReserveMapper.queryCarReserveId();
             // 添加审核
@@ -51,7 +52,6 @@ public class CarReserveServiceImpl implements CarReserveService {
         }
         return "false";
     }
-
 
 
     @Override

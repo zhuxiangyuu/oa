@@ -7,7 +7,8 @@ import java.util.Date;
 /**
  * 车辆预定表
  */
-public class CarReserve {
+public class
+CarReserve {
 
     private Integer id;
 

@@ -20,21 +20,20 @@
                 $("#address").append('<span>'+carReserve.address+'</span>');
                 $("#remark").append('<span>'+carReserve.remark+'</span>');
                 $("#miles").append('<span>'+carReserve.miles+'</span>');
-                $("#name").append('<span>'+task.name+'</span>');
+                $("#adminid").append('<span>'+carReserve.adminid+'</span>');
                 $("#subtime").append('<span>'+task.subtime+'</span>');
                 if(task.state==1){
-                    $("#state").append('<span>'+审核中+'</span>');
+                    $("#state").append('<span>'+'审核中'+'</span>');
                 }else if(task.state==2){
-                    $("#state").append('<span>'+审核通过 +'</span>');
+                    $("#state").append('<span>'+'审核通过' +'</span>');
                 }else{
-                    $("#state").append('<span>'+审核不通过 +'</span>');
+                    $("#state").append('<span>'+'审核不通过' +'</span>');
                 }
             });
             // 取到部门
             $.getJSON("/dept/queryDeptByUserid",{"userid":$("#userid").val()},function (data) {
                 $("#deptid").append('<span>'+data.name+'</span>');
             });
-
         });
 
     </script>
@@ -79,7 +78,7 @@
             </tr>
             <tr>
                 <td>审批人:</td>
-                <td id="name"></td>
+                <td id="adminid"></td>
             </tr>
             <tr>
                 <td>审核意见:</td>

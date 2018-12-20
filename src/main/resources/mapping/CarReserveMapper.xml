@@ -65,14 +65,24 @@
     </sql>
     <select id="queryCarReserveId" resultType="int">
         SELECT max(car_reserve.id)
-
         FROM car_reserve
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from car_reserve
-        where id = #{id,jdbcType=INTEGER}
+        SELECT
+               U.`name`,
+               C.id,
+               C.carId,
+               C.userId,
+               C.startTime,
+               C.endTime,
+               C.address,
+               C.miles,
+               C.remark,
+               C.adminId
+        FROM
+             car_reserve AS C
+                 INNER JOIN `user` AS U ON C.adminId = U.id
+        where  C.id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete

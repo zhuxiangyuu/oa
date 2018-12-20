@@ -3,6 +3,9 @@ package com.example.oa.mapper;
 
 import com.example.oa.po.Menu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface MenuMapper {
@@ -17,4 +20,8 @@ public interface MenuMapper {
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    List<Menu> queryMenu();
+
+    List<Menu> queryMenuByRoleIdAndPid(@Param("roleid") Integer roleid,@Param("pid") Integer pid);
 }

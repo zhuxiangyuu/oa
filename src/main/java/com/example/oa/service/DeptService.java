@@ -8,4 +8,6 @@ public interface DeptService {
     List<Dept> queryDeptByOrgId(Integer orgId);
 
     Dept selectByPrimaryKey(Integer id);
+
+    Dept  queryDeptByUserid(Integer userid);
 }

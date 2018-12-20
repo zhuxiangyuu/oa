@@ -151,8 +151,7 @@
                dataType:"json",
                data:{"id":id},
                success : function(data){
-                   console.log(data);
-                    $("#win"). prepend("<table id='easyui-datagrid'>"
+                    $("#win").html(""). prepend("<div  style='text-align: center'>"
                             +"<tr>"
                     +"<p>"+"标题："+data.announce.title+"</p>"
                     +"<p>"+"显示时间段："+data.announce.starttime+"     to："+data.announce.endtime+"</p>"
@@ -160,7 +159,7 @@
                     +"<p>"+"发布人："+data.announce.user.name+"</p>"
                     +"<p>"+"内容："+data.announce.content+"</p>"
                             +"</tr>"
-                    +"</table>");
+                    +"</div>");
                },
                 error : function(){
                    alert("网络繁忙，请稍后再试！");
@@ -172,6 +171,7 @@
 </head>
 <body>
     <!-- 搜索列表 -->
+    <div style="text-align: center">
     <label for="title">名称：</label>
     <input  name="searchLoginname" class="easyui-searchbox" data-options="prompt:'请输入名称',searcher:reloadtable" style="width:10%" id="title">
     <label for="subtime1">发布时间：</label>
@@ -180,12 +180,13 @@
     <input  name="searchName"  class="easyui-datebox" id="subtime2">
     <!--查询按钮 -->
     <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: 0px;" iconCls="icon-search" id="search">查询</a>
+    </div>
+    <P></P>
 
     <!-- 通告列表 -->
     <table id="tab"></table>
     <div id="win" class="easyui-window"   closed="true" title="查看通告" style="width:600px;height:300px"
          data-options="iconCls:'icon-save',modal:true">
-        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-back" style=bottom:20px; onclick="back()">返回</a>
     </div>
 
 </body>

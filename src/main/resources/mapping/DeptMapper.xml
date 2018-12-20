@@ -8,6 +8,17 @@
   <sql id="Base_Column_List">
     id, name
   </sql>
+  <!-- 根据用户ID查询部门 -->
+  <select id="queryDeptByUserid" resultMap="BaseResultMap">
+    SELECT
+           D.id,
+           D.`name`
+    FROM
+         dept AS D
+           INNER JOIN `user` AS U ON U.deptId = D.id
+    WHERE
+            U.id = #{userid}
+  </select>
   <!--根据机构查询机构下面的部门 -->
   <select id="queryDeptByOrgId" resultMap="BaseResultMap">
     SELECT

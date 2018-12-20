@@ -24,4 +24,7 @@ public interface TaskMapper {
     List<Task> queryTaskSelective(@Param("pageNumber") Integer pageNumber, @Param("pageSize")Integer pageSize, @Param("task")Task task);
 
     int countTaskSelective(@Param("task")Task task);
+
+    Task queryTaskByTaskId(@Param("taskid") Integer taskid);
+
 }

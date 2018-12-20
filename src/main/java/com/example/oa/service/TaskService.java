@@ -9,4 +9,5 @@ public interface TaskService {
     int countTaskSelective(Task task);
     int updateTaskState(Integer state,Integer id);
     String getTaskPage(Integer id);
+    Task queryTaskByTaskId(Integer taskid);
 }

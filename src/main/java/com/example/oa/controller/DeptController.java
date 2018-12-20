@@ -38,4 +38,9 @@ public class DeptController {
     public String selectByPrimaryKey(@PathVariable Integer id) {
         return JSON.toJSONString(deptService.selectByPrimaryKey(id));
     }
+    @ResponseBody
+    @RequestMapping("/queryDeptByUserid")
+    public String queryDeptByUserid(Integer userid){
+        return JSON.toJSONString(deptService.queryDeptByUserid(userid));
+    }
 }

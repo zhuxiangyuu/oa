@@ -17,4 +17,6 @@ public interface CarReserveMapper {
     int updateByPrimaryKeySelective(CarReserve record);
 
     int updateByPrimaryKey(CarReserve record);
+
+    int queryCarReserveId();
 }

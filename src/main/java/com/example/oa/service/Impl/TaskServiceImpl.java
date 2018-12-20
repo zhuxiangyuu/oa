@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -16,7 +17,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> queryTaskSelective(Integer pageNumber, Integer pageSize, Task task) {
-        return taskMapper.queryTaskSelective(pageNumber,pageSize,task);
+        return taskMapper.queryTaskSelective(pageNumber, pageSize, task);
     }
 
     @Override
@@ -39,32 +40,40 @@ public class TaskServiceImpl implements TaskService {
         // 得到更新的是那个申请表
         int type = task.getType();
         // 得到申请表的Id
-        int taskId =  Integer.valueOf( String.valueOf(task.getTaskid()).substring(1));
-        switch (type){
+        int taskId = Integer.valueOf(String.valueOf(task.getTaskid()).substring(1));
+        switch (type) {
             // 会议室管理
             case 1:
-                return "/xingzheng/demo1/look?id="+taskId;
+                return "redirect:/page/xingzheng/demo1/look?id=" + taskId;
             // 用户车管理
             case 2:
-                return "/xingzheng/demo2/look?id="+taskId;
+                return "redirect:/page/xingzheng/demo2/look?id=" + taskId;
             // 用章管理
             case 3:
-                return "/xingzheng/demo3/look?id="+taskId;
+                return "redirect:/page/xingzheng/demo3/look?id=" + taskId;
             // 图书借阅申请
             case 4:
-                return "/xingzheng/demo4/look?id="+taskId;
+                return "redirect:/page/xingzheng/demo4/look?id=" + taskId;
             // 名片印制流程
             case 5:
-                return "/xingzheng/demo5/look?id="+taskId;
+                return "redirect:/page/xingzheng/demo5/look?id=" + taskId;
             // 请假申请
             case 6:
-                return "/renshi/demo1/look?id="+taskId;
+                return "redirect:/page/renshi/demo1/look?id=" + taskId;
             // 出差申请
             case 7:
-                return "/renshi/demo2/look?id="+taskId;
+                return "redirect:/page/renshi/demo2/look?id=" + taskId;
             // 收入证明申请
+            case 8:
+                return "redirect:/page/renshi/demo3/look?id=" + taskId;
+            // 通告申请
             default:
-                return "/renshi/demo3/look?id="+taskId;
+                return "redirect:/page/tonggao/demo1/look?id=" + taskId;
         }
+    }
+
+    @Override
+    public Task queryTaskByTaskId(Integer taskid) {
+        return taskMapper.queryTaskByTaskId(taskid);
     }
 }

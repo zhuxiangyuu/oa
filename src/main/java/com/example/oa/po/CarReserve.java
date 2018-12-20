@@ -1,5 +1,7 @@
 package com.example.oa.po;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 /**
@@ -16,9 +18,9 @@ public class CarReserve {
     private Integer userid; // 申请人
 
     private User user;
-
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date starttime;// 开始时间
-
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date endtime;// 结束时间
 
     private String address;// 目的地

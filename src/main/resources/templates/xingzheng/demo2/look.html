@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/util.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        $(function () {
+            // 取到用车申请
+            $.getJSON("/carreserve/look", {id: getUrlParam('id')}, function (data) {
+                var carReserve = data.carReserve;
+                var task = data.task;
+                $("#starttime").append('<span>'+carReserve.starttime+'</span>');
+                $("#endtime").append('<span>'+carReserve.endtime+'</span>');
+                $("#carid").append('<span>'+carReserve.carid+'</span>');
+                $("#address").append('<span>'+carReserve.address+'</span>');
+                $("#remark").append('<span>'+carReserve.remark+'</span>');
+                $("#miles").append('<span>'+carReserve.miles+'</span>');
+                $("#name").append('<span>'+task.name+'</span>');
+                $("#subtime").append('<span>'+task.subtime+'</span>');
+                if(task.state==1){
+                    $("#state").append('<span>'+审核中+'</span>');
+                }else if(task.state==2){
+                    $("#state").append('<span>'+审核通过 +'</span>');
+                }else{
+                    $("#state").append('<span>'+审核不通过 +'</span>');
+                }
+            });
+            // 取到部门
+            $.getJSON("/dept/queryDeptByUserid",{"userid":$("#userid").val()},function (data) {
+                $("#deptid").append('<span>'+data.name+'</span>');
+            });
+
+        });
+
+    </script>
+</head>
+
+<body>
+<input type="hidden" th:value="${session.user.id}" id="userid">
+<div id="p" class="easyui-panel" title="<center>任务明细</center>">
+    <form id="ff" method="post">
+        <table style="margin:0 auto " cellpadding="10">
+            <tr>
+                <td>姓名</td>
+                <td><span th:text="${session.user.name}"></span></td>
+            </tr>
+            <tr>
+                <td>部门:</td>
+                <td id="deptid"></td>
+            </tr>
+            <tr>
+                <td>开始时间:</td>
+                <td id="starttime"></td>
+            </tr>
+            <tr>
+                <td>结束时间:</td>
+                <td id="endtime"></td>
+            </tr>
+            <tr>
+                <td>车辆编号:</td>
+                <td id="carid"></td>
+            </tr>
+            <tr>
+                <td>目的地:</td>
+                <td id="address"></td>
+            </tr>
+            <tr>
+                <td>用车事由:</td>
+                <td id="remark"></td>
+            </tr>
+            <tr>
+                <td>申请里程:</td>
+                <td id="miles"></td>
+            </tr>
+            <tr>
+                <td>审批人:</td>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <td>审核意见:</td>
+                <td id="state"></td>
+            </tr>
+            <tr>
+                <td>审批时间:</td>
+                <td id="subtime"></td>
+            </tr>
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        &emsp;&emsp;
+        <a th:href="@{/page/xingzheng/demo2/list}" class="easyui-linkbutton">返回</a>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -3,7 +3,6 @@ package com.example.oa.controller;
 import com.alibaba.fastjson.JSON;
 import com.example.oa.po.Announce;
 import com.example.oa.service.AnnounceService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +48,7 @@ public class AnnounceController {
     //根据id查询一个通告
     @RequestMapping("/look")
     @ResponseBody
-    public String lookAnnounceById(@Param("id") int id) {
+    public String lookAnnounceById(int id) {
         Announce announce = announceservice.lookAnnounceById(id);
         Map<String, Object> map = new HashMap();
         map.put("announce", announce);
@@ -80,7 +79,6 @@ public class AnnounceController {
     public String updateAnnounceById(int id) {
         announceservice.updateAnnounceById(id);
         return "success";
-
     }
 
     @RequestMapping("/del/{id}")

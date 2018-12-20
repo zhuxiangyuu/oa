@@ -59,18 +59,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> queryNextAdmin(User user,String type) {
-        int deptid=user.getDeptid();
-        int orgid=user.getOrgid();
-        int roleid=user.getRoleid();
-        if("用章管理".equals(type)){
+        int deptid=user.getDeptid();//2
+        int orgid=user.getOrgid();//2
+        int roleid=user.getRoleid();//1
+        if("用章管理".equals(type)||"用车申请".equals(type)){
             // 部门
             deptid = deptid<3?deptid:7;
             // 角色
-            roleid =orgid<=3?++orgid:2;
+            roleid =orgid<=3?++roleid:2;
 
         }else if("图书借阅管理".equals(type)){
 
         }
+        //332
         return userMapper.queryNextAdmin(roleid,orgid,deptid);
     }
 

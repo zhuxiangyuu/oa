@@ -78,9 +78,53 @@
             <result column="state" jdbcType="INTEGER" property="state"/>
         </association>
     </resultMap>
+    <resultMap id="TaskAdmin" type="com.example.oa.po.Task">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="taskId" jdbcType="INTEGER" property="taskid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="startTime" jdbcType="DATE" property="starttime"/>
+        <result column="subTime" jdbcType="DATE" property="subtime"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <association property="admin" javaType="User">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="loginName" jdbcType="VARCHAR" property="loginname"/>
+            <result column="password" jdbcType="VARCHAR" property="password"/>
+            <result column="name1" jdbcType="VARCHAR" property="name"/>
+            <result column="idcard" jdbcType="VARCHAR" property="idcard"/>
+            <result column="age" jdbcType="INTEGER" property="age"/>
+            <result column="phone" jdbcType="VARCHAR" property="phone"/>
+            <result column="sex" jdbcType="INTEGER" property="sex"/>
+            <result column="job" jdbcType="VARCHAR" property="job"/>
+            <result column="roleId" jdbcType="INTEGER" property="roleid"/>
+            <result column="photo" jdbcType="VARCHAR" property="photo"/>
+            <result column="orgId" jdbcType="INTEGER" property="orgid"/>
+            <result column="deptId" jdbcType="INTEGER" property="deptid"/>
+            <result column="state1" jdbcType="INTEGER" property="state"/>
+        </association>
+    </resultMap>
     <sql id="Base_Column_List">
         id, type, taskId, name, userId, adminId, startTime, subTime, state
     </sql>
+    <!-- 根据taskid查询任务 -->
+    <select id="queryTaskByTaskId" resultMap="TaskAdmin">
+        SELECT
+               T.id,
+               T.type,
+               T.taskId,
+               T.`name`,
+               T.userId,
+               T.adminId,
+               T.startTime,
+               T.subTime,
+               T.state,
+               A.`name` AS name1
+        FROM
+             task AS T
+                 INNER JOIN `user` AS A ON T.adminId = A.id
+        WHERE T.taskId = ${taskid}
+
+    </select>
     <!-- 查询根据Task查询任务列表 -->
     <select id="queryTaskSelective" resultMap="TaskList">
         SELECT
@@ -107,11 +151,11 @@
             <if test="task.adminid!=null and task.adminid!=0">
                 AND T.adminId = #{task.adminid}
             </if>
-            <if test="task.time1!=null" >
-                and T.starttime &gt;=  #{task.time1}
+            <if test="task.time1!=null">
+                and T.starttime &gt;= #{task.time1}
             </if>
             <if test="task.time2!=null">
-                and T.starttime &lt;=  #{task.time2}
+                and T.starttime &lt;= #{task.time2}
             </if>
             <if test="task.type!=null and task.type!=0">
                 and T.type = #{task.type}
@@ -133,11 +177,11 @@
             <if test="task.adminid!=null and task.adminid!=0">
                 AND T.adminId = #{task.adminid}
             </if>
-           <if test="task.time1!=null " >
-                and T.starttime &gt;=  #{task.time1}
+            <if test="task.time1!=null ">
+                and T.starttime &gt;= #{task.time1}
             </if>
             <if test="task.time2!=null ">
-                and T.starttime &lt;=  #{task.time2}
+                and T.starttime &lt;= #{task.time2}
             </if>
             <if test="task.type!=null and task.type!=0">
                 and T.type = #{task.type}

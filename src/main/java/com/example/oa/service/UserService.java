@@ -15,4 +15,5 @@ public interface UserService {
     User queryUserInfoByUserId(Integer id);
     int updateUser(User user);
     List<User> queryNextAdmin(User user,String type);
+    int updateByPrimaryKeySelective(User record);
 }

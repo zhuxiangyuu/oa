@@ -70,4 +70,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.queryNextAdmin(roleid,orgid,deptid);
     }
 
+    @Override
+    public int updateByPrimaryKeySelective(User record) {
+        return userMapper.updateByPrimaryKeySelective(record);
+    }
+
 }

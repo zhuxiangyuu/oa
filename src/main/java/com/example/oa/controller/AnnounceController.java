@@ -2,7 +2,9 @@ package com.example.oa.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.oa.po.Announce;
+import com.example.oa.po.Task;
 import com.example.oa.service.AnnounceService;
+import com.example.oa.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import java.util.Map;
 public class AnnounceController {
     @Resource
     AnnounceService announceservice;
+    @Resource
+    TaskService taskService;
 
     //查询通告列表
     @RequestMapping("/list")
@@ -52,46 +56,32 @@ public class AnnounceController {
         Announce announce = announceservice.lookAnnounceById(id);
         Map<String, Object> map = new HashMap();
         map.put("announce", announce);
-        String jsonString = JSON.toJSONStringWithDateFormat(map, "MM/dd/yyyy");
-        return jsonString;
+        Task task = taskService.queryTaskByTaskId(Integer.valueOf(2 + "" + id));
+        map.put("task",task);
+        return JSON.toJSONStringWithDateFormat(map, "MM/dd/yyyy");
     }
 
     //添加一条通告
-    @RequestMapping("/add/{type}/{userId}")
-    public String addAnnounce(Announce announce, @PathVariable String type, @PathVariable int userId) {
+    @RequestMapping("/add/{userId}")
+    public String addAnnounce(Announce announce,@PathVariable int userId) {
         announce.setUserid(userId);
-        if ("1".equals(type)) {
-            // 发布
-            announce.setState(2);
-            announceservice.addAnnounce(announce);
-        } else {
-            // 保存
-            announce.setState(1);
-            announceservice.addAnnounce(announce);
-        }
+        // 发布
+        announceservice.addAnnounce(announce);
 
-        return "/tonggao/demo1/list2";
-    }
-
-    //根据Id更改发布信息
-    @RequestMapping("/update")
-    @ResponseBody
-    public String updateAnnounceById(int id) {
-        announceservice.updateAnnounceById(id);
-        return "success";
+        return "/tonggao/demo1/list";
     }
 
     @RequestMapping("/del/{id}")
     public String deleteAnnounceById(@PathVariable int id) {
         announceservice.deleteAnnounceById(id);
-        return "/tonggao/demo1/list2";
+        return "/tonggao/demo1/list";
     }
 
     //编辑并发布一条通告
     @RequestMapping("/save/{userId}")
-    public String editAnnounceById(Announce record , @PathVariable int userId) {
+    public String updateByPrimaryKeySelective(Announce record , @PathVariable int userId) {
         record.setUserid(userId);
         announceservice.updateByPrimaryKeySelective(record);
-        return "/tonggao/demo1/list2";
+        return "/tonggao/demo1/list";
     }
 }

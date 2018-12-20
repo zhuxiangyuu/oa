@@ -123,7 +123,6 @@
              task AS T
                  INNER JOIN `user` AS A ON T.adminId = A.id
         WHERE T.taskId = ${taskid}
-
     </select>
     <!-- 查询根据Task查询任务列表 -->
     <select id="queryTaskSelective" resultMap="TaskList">
@@ -193,6 +192,11 @@
         from task
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <delete id="delByTaskId" parameterType="int">
+        delete
+        from task
+        where taskId = #{taskid}
+    </delete>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from task
@@ -300,6 +304,11 @@
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByTaskid" parameterType="int">
+        update task
+        set state=1
+        where taskId = #{taskid}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.example.oa.po.Task">
         update task

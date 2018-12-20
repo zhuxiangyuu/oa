@@ -24,9 +24,15 @@ public class Announce {
 
     private User user;
 
+    private Task task;
+
+    private Integer adminid;  // 审批人
+
+    private User admin;
+
     private String content;// 内容
 
-    private Integer state; // 状态  (1：草稿 2：已发布  3：已过期)
+    //private Integer state; // 状态  (1：草稿 2：已发布  3：已过期)
 
 
     public Integer getId() {
@@ -93,26 +99,36 @@ public class Announce {
         this.user = user;
     }
 
-    public Integer getState() {
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
+    public Integer getAdminid() {
+        return adminid;
+    }
+
+    public void setAdminid(Integer adminid) {
+        this.adminid = adminid;
+    }
+
+    public User getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(User admin) {
+        this.admin = admin;
+    }
+
+/*  public Integer getState() {
         return state;
     }
 
     public void setState(Integer state) {
         this.state = state;
-    }
+    }*/
 
-    @Override
-    public String toString() {
-        return "Announce{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", starttime=" + starttime +
-                ", endtime=" + endtime +
-                ", subtime=" + subtime +
-                ", userid=" + userid +
-                ", user=" + user +
-                ", content='" + content + '\'' +
-                ", state=" + state +
-                '}';
-    }
 }

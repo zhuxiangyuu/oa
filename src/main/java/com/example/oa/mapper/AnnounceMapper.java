@@ -27,5 +27,8 @@ public interface AnnounceMapper {
                                       @Param("pageSize")int pageSize);
 
     int countAnnounce();
+
     Announce lookAnnounceById(@Param("id")int id);
+
+    int queryAnnounceId();
 }

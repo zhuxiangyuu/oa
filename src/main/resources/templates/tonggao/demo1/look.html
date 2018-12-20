@@ -1,67 +1,73 @@
-﻿<!doctype html>
- <html >
- <head>
-   <meta charset="UTF-8">
-   <link rel="stylesheet" href="../../../css/common.css">
-   <link rel="stylesheet" href="../../../css/main.css">
-   <script type="text/javascript" src="../../../js/jquery.min.js"></script>
-   <script type="text/javascript" src="../../../js/colResizable-1.3.min.js"></script>
-   <script type="text/javascript" src="../../../js/common.js"></script>
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/util.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        $(function () {
+            // 取到通告申请
+            $.getJSON("/announce/look", {id: getUrlParam('id')}, function (data) {
+                var announce = data.announce;
+                var task = data.task;
+                $("#title").append('<span>'+announce.title+'</span>');
+                $("#starttime").append('<span>'+announce.starttime+'</span>');
+                $("#endtime").append('<span>'+announce.endtime+'</span>');
+                $("#content").append('<span>'+announce.content+'</span>');
+                $("#subtime1").append('<span>'+announce.subtime+'</span>');
+            });
+            // 取到部门
+            $.getJSON("/dept/queryDeptByUserid",{"userid":$("#userid").val()},function (data) {
+                $("#deptid").append('<span>'+data.name+'</span>');
+            });
+        });
+
+    </script>
 </head>
 
 <body>
-  <div id="forms" class="mt10">
-        <div class="box">
-          <div class="box_border">
-            <div class="box_top"><b class="pl15">查看通告</b></div>
-            <div class="box_center">
-              <form action="list.html" class="jqtransform">
-               <table class="form_table pt15 pb15" width="100%" border="0" cellpadding="0" cellspacing="0">
-                 <tr>
-                  <td class="td_right">标题：</td>
-                  <td class=""> 
-                    最新公告通知
-                  </td>
-				  </tr>
-				  <tr>
-                  <td class="td_right">显示时间段：</td>
-				  <td>2015-12-10to
-				  2015-12-20</td>
-                </tr>
-					   <tr>
-						  <td class="td_right">发布时间：</td>
-						  <td class=""> 
-							2015-10-10 20:1:30
-						  </td>
-					  </tr>
-					   <tr>
-						  <td class="td_right">发布人：</td>
-						  <td class=""> 
-							李四
-						  </td>
-					  </tr>
-					   <tr>
-						  <td class="td_right">内容：</td>
-						  <td class=""> 
-							safsafafasassafsafafasassafsafafasassafsafafasassafsafafasassafsafafasas
-						  </td>
-					  </tr>
-			
-              
-                 <tr>
-                   <td class="td_right">&nbsp;</td>
-                   <td class="">
-				   
-                    <input type="button" name="button" class="btn btn82 btn_res" onclick="location.href='javascript:history.go(-1)'" value="返回"> 
-                   </td>
-                 </tr>
-               </table>
-               </form>
-            </div>
-          </div>
-        </div>
-     </div>
-   </div> 
+<input type="hidden" th:value="${session.user.id}" id="userid">
+<div id="p" class="easyui-panel" title="<center>查看通告</center>">
+    <form id="ff" method="post">
+        <table style="margin:0 auto " cellpadding="10">
+            <tr>
+                <td>最新通告通知:</td>
+                <td id="title"></td>
+            </tr>
+            <tr>
+                <td>显示时间段:</td>
+                <td id="starttime"></td>
+                <td>to:</td>
+                <td id="endtime"></td>
+            </tr>
+            <tr>
+                <td>发布时间:</td>
+                <td id="subtime1"></td>
+            </tr>
+            <tr>
+                <td>发布人</td>
+                <td><span th:text="${session.user.name}"></span></td>
+            </tr>
+            <tr>
+                <td>部门:</td>
+                <td id="deptid"></td>
+            </tr>
+            <tr>
+                <td>内容:</td>
+                <td id="content"></td>
+            </tr>
+        </table>
+    </form>
+    <div style="text-align:center;padding:5px">
+        &emsp;&emsp;
+        <input type="button" value="返回" onclick="location.href='javascript:history.go(-1)'">
+    </div>
+</div>
+
 </body>
 
 </html>

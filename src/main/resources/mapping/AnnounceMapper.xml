@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.example.oa.po.Announce">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="state" jdbcType="INTEGER" property="state" />
     <result column="startTime" jdbcType="DATE" property="starttime" />
     <result column="endTime" jdbcType="DATE" property="endtime" />
     <result column="subTime" jdbcType="DATE" property="subtime" />
@@ -17,33 +16,48 @@
     <result column="startTime" jdbcType="DATE" property="starttime" />
     <result column="endTime" jdbcType="DATE" property="endtime" />
     <result column="subTime" jdbcType="DATE" property="subtime" />
-    <result column="state" jdbcType="INTEGER" property="state" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <association property="user" javaType="User">
       <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="loginName" jdbcType="VARCHAR" property="loginname" />
-      <result column="password" jdbcType="VARCHAR" property="password" />
       <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="idcard" jdbcType="VARCHAR" property="idcard" />
-      <result column="age" jdbcType="INTEGER" property="age" />
-      <result column="phone" jdbcType="VARCHAR" property="phone" />
-      <result column="sex" jdbcType="INTEGER" property="sex" />
-      <result column="job" jdbcType="VARCHAR" property="job" />
-      <result column="roleId" jdbcType="INTEGER" property="roleid" />
-      <result column="photo" jdbcType="VARCHAR" property="photo" />
-      <result column="orgId" jdbcType="INTEGER" property="orgid" />
-      <result column="deptId" jdbcType="INTEGER" property="deptid" />
-      <result column="state" jdbcType="INTEGER" property="state" />
+    </association>
+    <association property="task" javaType="Task">
+      <id column="id" jdbcType="INTEGER" property="id"/>
+      <result column="type" jdbcType="INTEGER" property="type"/>
+      <result column="state" jdbcType="INTEGER" property="state"/>
     </association>
   </resultMap>
 
   <sql id="Base_Column_List">
     id, title, startTime, endTime, subTime, userId, content,state
   </sql>
+  <!-- 查询刚刚添加的一条通告ID -->
+  <select id="queryAnnounceId" resultType="int" >
+    SELECT max(announce.id)
+    FROM announce
+  </select>
   <!-- 查询通告条数  -->
   <select id="countAnnounce" resultType="int" >
-    SELECT count(1)
-    from `announce`
+    SELECT
+    COUNT(1)
+    FROM
+    (
+    SELECT DISTINCT
+    A.id,
+    A.title,
+    A.startTime,
+    A.endTime,
+    A.subTime,
+    A.content,
+    T.state,
+    U.`name`
+    FROM
+    announce AS A
+    LEFT JOIN `user` AS U ON A.userId = U.id
+    INNER JOIN task AS T ON A.userId = T.userId
+    WHERE
+    T.type = 9
+    )AS COUA
       <where>
           <if test="title!=null and title!=''">
               title like concat('%',#{title},'%')
@@ -64,29 +78,31 @@
            A.endTime,
            A.subTime,
            A.content,
-           A.state,
            U.`name` from announce A
            INNER JOIN `user` AS U ON A.userId = U.id
            where A.id=#{id,jdbcType=INTEGER}
   </select>
   <!--查询通告列表-->
   <select id="queryAnnounceList" resultMap="AnnounceDetail">
-    SELECT
+    SELECT DISTINCT
            A.id,
            A.title,
            A.startTime,
            A.endTime,
            A.subTime,
            A.content,
-           A.state,
+           T.state,
            U.`name`
     FROM
          announce AS A
     left JOIN `user` AS U
     ON A.userId = U.id
+    INNER join task AS T
+    ON A.userId = T.userId
     <where>
+        T.type = 9
       <if test="title!=null and title!=''">
-        title like concat('%',#{title},'%')
+        and title like concat('%',#{title},'%')
       </if>
       <if test="time1!=null" >
         and TO_DAYS(A.subTime) &gt;=  TO_DAYS  (#{time1})
@@ -95,7 +111,7 @@
         and TO_DAYS(A.subTime) &lt;=  TO_DAYS  (#{time2})
       </if>
     </where>
-    order BY A.id
+    order BY A.id desc
     limit ${pageNumber},${pageSize}
 
   </select>
@@ -107,10 +123,10 @@
   <insert id="insert" parameterType="com.example.oa.po.Announce">
     insert into announce (title, startTime,
       endTime, subTime, userId, 
-      content,state)
+      content)
     values (#{announce.title,jdbcType=VARCHAR}, #{announce.starttime,jdbcType=DATE},
       #{announce.endtime,jdbcType=DATE},now(), #{announce.userid,jdbcType=INTEGER},
-      #{announce.content,jdbcType=VARCHAR},#{announce.state,jdbcType=INTEGER})
+      #{announce.content,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.oa.po.Announce">
     insert into announce
@@ -127,14 +143,9 @@
       <if test="endtime != null">
         endTime,
       </if>
-      <if test="subtime != null">
         subTime,
-      </if>
       <if test="userid != null">
         userId,
-      </if>
-      <if test="state != null">
-        state,
       </if>
       <if test="content != null">
         content,
@@ -153,14 +164,9 @@
       <if test="endtime != null">
         #{endtime,jdbcType=DATE},
       </if>
-      <if test="subtime != null">
-        #{subtime,jdbcType=DATE},
-      </if>
+        now(),
       <if test="userid != null">
         #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -188,18 +194,8 @@
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        state =#{state,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <!--根据id修改通告状态-->
-  <update id="updateByPrimaryKey" parameterType="int">
-    update announce
-    set
-      subTime = now(),
-      state = 2
-    where id = #{value}
-  </update>
+
 </mapper>

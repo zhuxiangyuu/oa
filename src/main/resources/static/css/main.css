@@ -10,14 +10,14 @@
 .box_top_l, .box_top_r{height: 37px;line-height: 37px;}
  
 /*button*/
-.btn{
+/*.btn{
 	height: 35px;
 	line-height: 35px;
 	border-style: none;
 	cursor: pointer;
-	font-size: 14px/35px;
+	font-size: 14px|35px;
 	font-family: "Microsoft YaHei","微软雅黑","sans-serif" ;
-}
+}*/
 .btn82{
 	width: 82px;
 	text-align: left;

@@ -27,4 +27,7 @@ public interface TaskMapper {
 
     Task queryTaskByTaskId(@Param("taskid") Integer taskid);
 
+    int delByTaskId(@Param("taskid")int taskid);
+
+    int updateByTaskid(int taskid);
 }

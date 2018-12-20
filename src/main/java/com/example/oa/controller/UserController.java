@@ -20,6 +20,16 @@ public class UserController {
     @Resource
     UserService userService;
 
+    @ResponseBody
+    @RequestMapping("/updatePassword")
+    public String updatePassword(HttpSession session, String newpassword) {
+        User user = (User) session.getAttribute("user");
+        user.setPassword(newpassword);
+        userService.updateByPrimaryKeySelective(user);
+        session.setAttribute("user",user);
+        return "true";
+    }
+
     /**
      * 用户退出
      *
@@ -64,6 +74,20 @@ public class UserController {
     public Boolean queryUserByLoginname(String loginname) {
         User user = userService.queryUserByLoginname(loginname);
         return user == null ? true : false;
+    }
+
+    /**
+     * 验证修改密码时密码是否输入正确
+     *
+     * @param oldpassword
+     * @param session
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("queryUserPassword")
+    public Boolean queryUserPassword(String oldpassword, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return oldpassword.equals(user.getPassword()) ? true : false;
     }
 
     /**

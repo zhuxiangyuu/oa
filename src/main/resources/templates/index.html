@@ -14,12 +14,13 @@
         $(function () {
             // 加载菜单
             $("#att").tree({
-                url: '/menu/getMenu',
+                url: '/menu/getMenu/'+$("#roleid").val(),
                 onClick: function (node) {
-                    console.log(node);
                     $("#rightMain").attr("src", node.href);
+                },onLoadSuccess:function() {
+                    $("#att").tree("collapseAll");
                 }
-            });
+                });
         });
         $(function () {
             $(".sideMenu").slide({
@@ -86,6 +87,7 @@ function back(){
   <title>后台首页</title>
 </head>
 <body>
+<input type="hidden" th:value="${session.user.roleid}" id="roleid">
     <div class="top">
       <div id="top_t">
         <div id="logo" class="fl"></div>

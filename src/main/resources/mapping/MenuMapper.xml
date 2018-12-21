@@ -28,9 +28,14 @@
     <select id="queryMenuByRoleIdAndPid" resultMap="BaseResultMap">
         SELECT M.id, M.url, M.pId, M.state, M.`name`
         FROM menu AS M
-
-        WHERE M.id IN (SELECT R.menuId FROM role_menu AS R WHERE R.roleId = #{roleid})
-        AND M.pId=${pid}
+        <where>
+            <if test="roleid!=null and roleid!=0">
+                M.id IN (SELECT R.menuId FROM role_menu AS R WHERE R.roleId = #{roleid})
+            </if>
+            <if test="pid != null">
+                AND M.pId=${pid}
+            </if>
+        </where>
     </select>
 
     <!-- 查询所有的菜单 -->

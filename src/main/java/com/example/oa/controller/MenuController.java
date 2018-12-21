@@ -6,6 +6,7 @@ import com.example.oa.po.Menu;
 import com.example.oa.po.User;
 import com.example.oa.service.MenuService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -19,54 +20,45 @@ import java.util.List;
 public class MenuController {
     @Resource
     MenuService menuService;
-    private List<Menu> ls; // 所有顶级权限
 
+    /**
+     * 左侧菜单
+     * @return
+     */
     @ResponseBody
-    @RequestMapping("/getMenu")
-    public String getMenu(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        // 得到用户的所有权限
-        ls = menuService.queryMenuByRoleIdAndPid(user.getRoleid(),0);
-        // 定义一个集合装该用户的父节点
-        List<Menu> parent = new ArrayList<Menu>();
-        // 得到父节点
-        for (Menu menu : ls) {
-            // 如果是顶级菜单并且可用
-            if (menu.getPid() == 0 && menu.getState() == 1) {
-                parent.add(menu);
-            }
-        }
-        // 定义一个集合装某个父节点下面的子节点
-//        List<Children> la = new ArrayList<Children>();
-//        for (Menu menu : parent) {
-//            // 定义一个空集合
-//            List<Children> lb = new ArrayList<Children>();
-//            // 将Menu对象转换为Children
-//            Children children = new Children(menu.getId(), menu.getName(), menu.getUrl(), menu.getState(), lb);
-//            la.add(children);
-//            // 调用方法：
-//            gettextd(menu, la, children, lb, user.getRoleid());
-//        }
+    @RequestMapping("/getMenu/{roleid}")
+    public String getMenu(@PathVariable Integer roleid) {
         Menu menu  = new Menu ();
         menu.setId(0);
         Children children = new Children( );
         children.setChildren( new ArrayList<Children>());
-        gettextd(menu, null, children, children.getChildren(), user.getRoleid());
+        gettextd(menu,  children, children.getChildren(), roleid);
         String JSONString = JSON.toJSONString(children.getChildren());
         return JSONString;
     }
 
-    public void gettextd(Menu menu, List<Children> la, Children children, List<Children> lb, Integer roleid) {
-        // 得到该父节点下所有的子节点的权限：
+    /**
+     * 遍历所有的菜单
+     * @param menu
+     * @param children
+     * @param lb
+     * @param roleid
+     */
+    public void gettextd(Menu menu,  Children children, List<Children> lb, Integer roleid) {
+        // 得到某个父类菜单下所有的子菜单
         List<Menu> lia = menuService.queryMenuByRoleIdAndPid(roleid, menu.getId());
+        // 如果有子菜单
         if (lia != null) {
+            // 循环子菜单
             for (Menu menus : lia) {
+                // 创建一个新的集合，用于存放下一级菜单（如果有下一级）
                 List<Children> lc = new ArrayList<Children>();
-                Children cb = new Children(menus.getId(), menus.getName(), menus.getUrl(), menus.getState());
+                // 创建一个菜单
+                Children cb = new Children(menus.getId(), menus.getName(), menus.getUrl(), menus.getState(),lc);
+                // 将该菜单放入树中
                 lb.add(cb);
-                cb.setChildren(lc);
-                // 调用方法：
-                gettextd(menus, lb, cb, lc, roleid);
+                // 如果有下一级，递归
+                gettextd(menus, cb, lc, roleid);
             }
         }
     }

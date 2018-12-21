@@ -8,10 +8,23 @@
     <script th:src="@{/js/jquery-1.12.4.js}"></script>
     <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
     <script>
-        function save(){
-                var nodes = $('#tt').tree('getChecked');
-
-
+        function save() {
+            var nodes = $('#tt').tree('getChecked');
+            var s = '';
+            for (var i = 0; i < nodes.length; i++) {
+                if (s != '') s += ',';
+                s += nodes[i].id;//例如:菜单的menuID
+            }
+            $("#nodes").val(s);
+            var form = $("#form").serialize();
+            console.log(form);
+            $.ajax({
+                url: "/role/addRole",
+                data: $("#form").serialize(),
+                success: function () {
+                    window.location.href="/page/system/role/list";
+                }
+            });
         }
     </script>
 </head>
@@ -19,23 +32,25 @@
 <body>
 <div id="page" class="easyui-panel" title="<center>添加角色</center>">
     <form id="form" method="post">
-        <input type="hidden" name="nodes" id="nodes"/>
+        <input type="hidden" name="nodes" id="nodes">
         <table style="margin:0 auto " cellpadding="10">
             <tr>
                 <td><label for="name">角色名称:</label></td>
                 <td><input class="easyui-textbox" type="text" id="name" name="name" style="width:150px;"
-                           data-options="required:true,prompt:'请输入角色名名称'" validType="remote['/role/queryRoleName','name']"
+                           data-options="required:true,prompt:'请输入角色名名称'"
+                           validType="remote['/role/queryRoleByName','name']"
                            missingMessage="角色名称不能为空" invalidMessage="该角色已存在"
                 /></td>
             </tr>
             <tr>
                 <td><label for="remark">备注:</label></td>
-                <td><textarea rows=2 id="remark" name="remark" class="textarea" ></textarea></td>
+                <td><textarea rows=2 id="remark" name="remark" class="textarea"></textarea></td>
             </tr>
             <tr>
                 <td>状态：</td>
                 <td>
-                    <input type="radio" id="state1" name="state" value="1" checked><label for="state1">启用</label></input>
+                    <input type="radio" id="state1" name="state" value="1" checked><label
+                        for="state1">启用</label></input>
                     <input type="radio" id="state2" name="state" value="2"><label for="state2">禁用</label></input>
                 </td>
             </tr>
@@ -45,11 +60,13 @@
             </tr>
             <tr>
                 <td></td>
-                <td><ul id="tt" class="easyui-tree" data-options="url:'/menu/getMenu/0',checkbox:true "></ul></td>
+                <td>
+                    <ul id="tt" class="easyui-tree" data-options="url:'/menu/getMenu/0',checkbox:true "></ul>
+                </td>
             </tr>
             <tr>
                 <td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="save()">保存</a></td>
-                <td><a th:href="@{/page/system/user/list}" class="easyui-linkbutton">返回</a></td>
+                <td><a th:href="@{/page/system/role/list}" class="easyui-linkbutton">返回</a></td>
             </tr>
         </table>
     </form>

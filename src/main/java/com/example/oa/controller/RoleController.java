@@ -2,6 +2,8 @@ package com.example.oa.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.oa.po.Role;
+import com.example.oa.po.RoleMenuKey;
+import com.example.oa.service.RoleMenuService;
 import com.example.oa.service.RoleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,9 @@ import java.util.Map;
 public class RoleController {
     @Resource
     RoleService roleService;
+
+    @Resource
+    RoleMenuService roleMenuService;
 
     /**
      * 查询全部的角色列表
@@ -84,7 +89,17 @@ public class RoleController {
     @RequestMapping("/addRole")
     @ResponseBody
     public String addRole(Role role) {
+        // 添加角色
         roleService.addRole(role);
+        // 拿到新增角色的ID
+        Integer roleid = roleService.getMaxId();
+        // 拿到角色的权限
+        String[] ids = role.getNodes().split(",");
+        // 循环添加角色权限
+        for (String id : ids) {
+            RoleMenuKey roleMenuKey = new RoleMenuKey(roleid,Integer.valueOf(id));
+            roleMenuService.insert(roleMenuKey);
+        }
         return "true";
     }
 

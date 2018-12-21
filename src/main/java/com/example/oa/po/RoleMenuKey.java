@@ -13,6 +13,11 @@ public class RoleMenuKey {
 
     private Menu menu; // 菜单
 
+    public RoleMenuKey(Integer roleid, Integer menuid) {
+        this.roleid = roleid;
+        this.menuid = menuid;
+    }
+
     public Integer getRoleid() {
         return roleid;
     }

@@ -1,10 +1,13 @@
 package com.example.oa.po;
 
+import com.example.oa.common.Children;
+
 /**
  * 角色表
  */
 public class Role {
 
+    private String nodes;
     private Integer id;
 
     private String name;// 名称
@@ -43,5 +46,13 @@ public class Role {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(String nodes) {
+        this.nodes = nodes;
     }
 }

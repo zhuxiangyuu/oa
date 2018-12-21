@@ -30,4 +30,6 @@ public interface RoleMapper {
     Role queryRoleByName(@Param("name")String name);
 
     int updateRoleState(@Param("state")Integer state, @Param("id")Integer id);
+
+    int getMaxId();
 }

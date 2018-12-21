@@ -58,4 +58,9 @@ public class RoleServiceImpl implements RoleService {
     public Role queryRoleInfoByRoleId(Integer id) {
         return roleMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public Integer getMaxId() {
+        return roleMapper.getMaxId();
+    }
 }

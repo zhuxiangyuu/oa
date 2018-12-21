@@ -30,7 +30,9 @@
         FROM menu AS M
         <where>
             <if test="roleid!=null and roleid!=0">
-                M.id IN (SELECT R.menuId FROM role_menu AS R WHERE R.roleId = #{roleid})
+                M.id IN (SELECT M.menuId FROM role_menu AS M
+                LEFT JOIN role AS R ON M.roleId = R.id
+                WHERE M.roleId = ${roleid} AND R.state = 1)
             </if>
             <if test="pid != null">
                 AND M.pId=${pid}

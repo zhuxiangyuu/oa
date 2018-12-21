@@ -14,4 +14,5 @@ public interface RoleService {
     int updateRole(Role role);
     int deleteRole(Integer id);
     Role queryRoleInfoByRoleId(Integer id);
+    Integer getMaxId();
 }

@@ -13,11 +13,10 @@
             var s = '';
             for (var i = 0; i < nodes.length; i++) {
                 if (s != '') s += ',';
-                s += nodes[i].id;//例如:菜单的menuID
+                s += nodes[i].id;
             }
             $("#nodes").val(s);
             var form = $("#form").serialize();
-            console.log(form);
             $.ajax({
                 url: "/role/addRole",
                 data: $("#form").serialize(),

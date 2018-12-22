@@ -24,6 +24,15 @@
     <sql id="Base_Column_List">
         id, url, pId, state, name
     </sql>
+    <select id="getCheckMenuByRoleid" resultType="int">
+        SELECT RM.menuId
+        FROM role_menu AS RM
+                 LEFT JOIN role AS R ON RM.roleId = R.id
+                 INNER JOIN menu AS M ON M.id = RM.menuId
+        WHERE RM.roleId = ${roleid}
+          AND R.state = 1
+          AND M.pId != 0
+    </select>
     <!-- 查询某个角色的父级菜单下的子菜单-->
     <select id="queryMenuByRoleIdAndPid" resultMap="BaseResultMap">
         SELECT M.id, M.url, M.pId, M.state, M.`name`
@@ -42,7 +51,8 @@
 
     <!-- 查询所有的菜单 -->
     <select id="queryMenu" resultMap="BaseResultMap">
-        SELECT * FROM menu
+        SELECT *
+        FROM menu
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select

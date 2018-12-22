@@ -113,8 +113,19 @@ public class RoleController {
     @RequestMapping("/updateRole/{id}")
     @ResponseBody
     public String updateRole(Role role, @PathVariable Integer id) {
+        // 更新角色基本信息
         role.setId(id);
         roleService.updateRole(role);
+        // 更新角色菜单表
+        // 删除角色原有的权限
+        roleMenuService.deleteByRoleId(id);
+        // 拿到角色现有的权限
+        String [] ids = role.getNodes().split(",");
+        // 循环添加角色权限
+        for (String menuid : ids) {
+            RoleMenuKey roleMenuKey = new RoleMenuKey(role.getId(),Integer.valueOf(menuid));
+            roleMenuService.insert(roleMenuKey);
+        }
         return "true";
     }
 

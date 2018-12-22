@@ -20,6 +20,10 @@
       <result column="name" jdbcType="VARCHAR" property="name" />
     </association>
   </resultMap>
+  <delete id="deleteByRoleId">
+    delete from role_menu
+    where roleId = #{roleid}
+  </delete>
   <delete id="deleteByPrimaryKey" parameterType="com.example.oa.po.RoleMenuKey">
     delete from role_menu
     where roleId = #{roleid,jdbcType=INTEGER}

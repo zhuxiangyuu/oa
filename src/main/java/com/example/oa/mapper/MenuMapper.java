@@ -24,4 +24,6 @@ public interface MenuMapper {
     List<Menu> queryMenu();
 
     List<Menu> queryMenuByRoleIdAndPid(@Param("roleid") Integer roleid,@Param("pid") Integer pid);
+
+    List<Integer> getCheckMenuByRoleid(@Param("roleid") Integer roleid);
 }

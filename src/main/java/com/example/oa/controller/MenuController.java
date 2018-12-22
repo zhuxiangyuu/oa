@@ -37,6 +37,13 @@ public class MenuController {
         return JSONString;
     }
 
+    @ResponseBody
+    @RequestMapping("/getCheckMenuByRoleid")
+    public String getCheckMenuByRoleid(Integer roleid){
+        List<Integer> list = menuService.getCheckMenuByRoleid(roleid);
+       String JSONString =  JSON.toJSONString(list);
+        return JSONString;
+    }
     /**
      * 遍历所有的菜单
      * @param menu

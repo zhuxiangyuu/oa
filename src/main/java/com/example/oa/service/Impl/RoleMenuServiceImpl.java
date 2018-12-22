@@ -16,4 +16,9 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     public int insert(RoleMenuKey roleMenu) {
         return roleMenuMapper.insert(roleMenu);
     }
+
+    @Override
+    public int deleteByRoleId(Integer roleid) {
+        return roleMenuMapper.deleteByRoleId(roleid);
+    }
 }

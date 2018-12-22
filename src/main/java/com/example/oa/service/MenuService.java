@@ -9,4 +9,6 @@ public interface MenuService {
     List<Menu> queryMenu();
 
     List<Menu> queryMenuByRoleIdAndPid(Integer roleid,Integer pid);
+
+    List<Integer> getCheckMenuByRoleid(Integer roleid);
 }

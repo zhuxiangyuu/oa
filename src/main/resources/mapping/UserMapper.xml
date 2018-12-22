@@ -93,6 +93,9 @@
         <where>
             O.id = #{user.orgid}
             AND  U.roleId &lt; #{user.roleid}
+            <if test="user.deptid != 7">
+                AND U.deptid = #{user.deptid}
+            </if>
             <if test="user.loginname != null and user.loginname != ''">
                 and U.loginName like concat( '%',#{user.loginname},'%')
             </if>
@@ -113,6 +116,9 @@
         <where>
             O.id = #{user.orgid}
             AND  U.roleId &lt; #{user.roleid}
+            <if test="user.deptid != 7">
+                AND U.deptid = #{user.deptid}
+            </if>
             <if test="user.loginname != null and user.loginname != ''">
                 AND loginName like concat( '%',#{user.loginname},'%')
             </if>

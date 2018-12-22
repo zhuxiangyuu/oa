@@ -115,7 +115,8 @@
                 loginname:$("#searchLoginname").val(),
                 name:$("#searchName").val(),
                 orgid:$("#orgid").val(),
-                roleid:$("#roleid").val()
+                roleid:$("#roleid").val(),
+                deptid:$("#deptid").val()
             };
             return temp;
         }
@@ -132,6 +133,7 @@
 <body>
 <input type="hidden" id="orgid" th:value="${session.user.orgid}"/>
 <input type="hidden" id="roleid" th:value="${session.user.roleid}"/>
+<input type="hidden" id="deptid" th:value="${session.user.deptid}"/>
 <!-- 搜索列表 -->
 <div style="text-align: center">
     <label for="searchLoginname">登录名：</label>

@@ -60,6 +60,8 @@ public class CarReserveController {
         map.put("carReserve",carReserve);
         Task task = taskService.queryTaskByTaskId(Integer.valueOf(2 + "" + id));
         map.put("task",task);
+        User user = userService.queryUserInfoByUserId(carReserve.getUserid());
+        map.put("user",user);
         return JSON.toJSONStringWithDateFormat(map,"MM/dd/yyyy");
     }
 }

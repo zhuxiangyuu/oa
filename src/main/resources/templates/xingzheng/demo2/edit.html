@@ -52,13 +52,12 @@
                 <td>备注:</td>
                 <td><input class="easyui-textbox" type="text" id="remark" name="remark"/></td>
             </tr>
+            <tr>
+                <td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateCar()">保存</a></td>
+                <td><a href="javascript:history.go(-1)" class="easyui-linkbutton" >返回</a></td>
+            </tr>
         </table>
     </form>
-    <div style="text-align:center;padding:5px">
-        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="updateCar()">保存</a>
-        &emsp;&emsp;
-        <a th:href="@{/page/xingzheng/demo2/list}" class="easyui-linkbutton">返回</a>
-    </div>
 </div>
 
 </body>

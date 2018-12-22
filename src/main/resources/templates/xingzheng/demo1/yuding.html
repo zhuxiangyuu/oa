@@ -11,7 +11,16 @@
         <!-- 文档就绪 -->
         $(function(){
             nextAdmin();
-           // queryRoomName();
+            // queryRoomName();
+            //查询第一个时间框并赋给第二个时间框最小值
+            $('#starttime').timespinner({
+                onChange:function(){
+                    $('#endtime').timespinner({
+                        min:  $('#starttime').timespinner('getValue') ,
+                        max:'18:00'
+                    });
+                }
+            });
         });  <!-- 文档就绪  end! -->
         //下拉框赋值
         function nextAdmin() {
@@ -37,15 +46,6 @@
                         $('#name').combobox('setValue', data[0].name);
                     }
                 }
-            });
-        }
-        //查询第一个时间框并赋给第二个时间框最小值
-        function queryStartTime() {
-            var startTime = $('#starttime').timespinner('getValue') ;
-            $('#ss').timespinner({
-                min: 'startTime',
-                required: true,
-                showSeconds: true
             });
         }
         //添加一条用车信息并添加一条任务
@@ -75,10 +75,9 @@
                 <td>预定日期:</td>
                 <td><input class="easyui-datebox"  name="day" id="day"/></td>
                 <td>预定时间:</td>
-                <td><input class="easyui-timespinner" data-options="min:'09:00',max:'18:00'" name="starttime" id="starttime" onchange="queryStartTime()"/></td>
+                <td><input class="easyui-timespinner" data-options="min:'09:00',max:'18:00'" name="starttime" id="starttime"/></td>
                 <td>to:</td>
-                <td><input id="endtime" name="endtime" class="easyui-timespinner"
-                            data-options="showSeconds:true"></td>
+                <td><input id="endtime" name="endtime" class="easyui-timespinner"  ></td>
             </tr>
             <tr>
                 <td>会议室名称:</td>

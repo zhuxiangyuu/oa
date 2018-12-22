@@ -18,7 +18,7 @@
     <result column="subTime" jdbcType="DATE" property="subtime" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <association property="user" javaType="User">
-      <id column="id" jdbcType="INTEGER" property="id" />
+      <id column="id2" jdbcType="INTEGER" property="id" />
       <result column="name" jdbcType="VARCHAR" property="name" />
     </association>
     <association property="task" javaType="Task">
@@ -78,7 +78,9 @@
            A.endTime,
            A.subTime,
            A.content,
-           U.`name` from announce A
+           U.`name` ,
+           U.id  As  id2
+            from announce A
            INNER JOIN `user` AS U ON A.userId = U.id
            where A.id=#{id,jdbcType=INTEGER}
   </select>

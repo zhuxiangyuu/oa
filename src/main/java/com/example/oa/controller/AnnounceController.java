@@ -3,8 +3,10 @@ package com.example.oa.controller;
 import com.alibaba.fastjson.JSON;
 import com.example.oa.po.Announce;
 import com.example.oa.po.Task;
+import com.example.oa.po.User;
 import com.example.oa.service.AnnounceService;
 import com.example.oa.service.TaskService;
+import com.example.oa.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,7 @@ public class AnnounceController {
     @Resource
     AnnounceService announceservice;
     @Resource
-    TaskService taskService;
+    UserService userService;
 
     //查询通告列表
     @RequestMapping("/list")
@@ -80,8 +82,8 @@ public class AnnounceController {
         Announce announce = announceservice.lookAnnounceById(id);
         Map<String, Object> map = new HashMap();
         map.put("announce", announce);
-        Task task = taskService.queryTaskByTaskId(Integer.valueOf(2 + "" + id));
-        map.put("task",task);
+        User user = userService.queryUserInfoByUserId(announce.getUserid());
+        map.put("user",user);
         return JSON.toJSONStringWithDateFormat(map, "MM/dd/yyyy");
     }
 

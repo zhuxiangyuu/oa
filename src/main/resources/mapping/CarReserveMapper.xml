@@ -27,7 +27,7 @@
             <result column="remark" jdbcType="VARCHAR" property="remark"/>
         </association>
         <association property="user" javaType="User">
-            <id column="id" jdbcType="INTEGER" property="id"/>
+            <id column="id2" jdbcType="INTEGER" property="id"/>
             <result column="loginName" jdbcType="VARCHAR" property="loginname"/>
             <result column="password" jdbcType="VARCHAR" property="password"/>
             <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -70,6 +70,7 @@
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT
                U.`name`,
+               U.id as id2,
                C.id,
                C.carId,
                C.userId,

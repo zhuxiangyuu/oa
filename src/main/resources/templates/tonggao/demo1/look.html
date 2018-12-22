@@ -12,25 +12,29 @@
         $(function () {
             // 取到通告申请
             $.getJSON("/announce/look", {id: getUrlParam('id')}, function (data) {
+                console.log(data);
                 var announce = data.announce;
-                var task = data.task;
+                var user = data.announce.user;
                 $("#title").append('<span>'+announce.title+'</span>');
                 $("#starttime").append('<span>'+announce.starttime+'</span>');
                 $("#endtime").append('<span>'+announce.endtime+'</span>');
                 $("#content").append('<span>'+announce.content+'</span>');
                 $("#subtime1").append('<span>'+announce.subtime+'</span>');
+                $("#username").append('<span>'+user.name+'</span>');
+                $("#userid").val(user.id);
+                // 取到部门
+                $.getJSON("/dept/queryDeptByUserid",{"userid":$("#userid").val()},function (data) {
+                    $("#deptid").append('<span>'+data.name+'</span>');
+                });
             });
-            // 取到部门
-            $.getJSON("/dept/queryDeptByUserid",{"userid":$("#userid").val()},function (data) {
-                $("#deptid").append('<span>'+data.name+'</span>');
-            });
+
         });
 
     </script>
 </head>
 
 <body>
-<input type="hidden" th:value="${session.user.id}" id="userid">
+<input type="hidden"  id="userid">
 <div id="p" class="easyui-panel" title="<center>查看通告</center>">
     <form id="ff" method="post">
         <table style="margin:0 auto " cellpadding="10">
@@ -50,7 +54,7 @@
             </tr>
             <tr>
                 <td>发布人</td>
-                <td id=""></td>
+                <td id="username"></td>
             </tr>
             <tr>
                 <td>部门:</td>
@@ -60,12 +64,12 @@
                 <td>内容:</td>
                 <td id="content"></td>
             </tr>
+            <tr>
+                <td></td>
+                <td> <a href="javascript:history.go(-1)" class="easyui-linkbutton" >返回</a></td>
+            </tr>
         </table>
     </form>
-    <div style="text-align:center;padding:5px">
-        &emsp;&emsp;
-        <input type="button" value="返回" onclick="location.href='javascript:history.go(-1)'">
-    </div>
 </div>
 
 </body>

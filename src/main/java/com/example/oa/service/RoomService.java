@@ -1,14 +1,10 @@
-package com.example.oa.mapper;
-
+package com.example.oa.service;
 
 import com.example.oa.po.Room;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
-public interface RoomMapper {
+public interface RoomService {
     int deleteByPrimaryKey(Integer id);
 
     int insert(Room record);
@@ -21,9 +17,10 @@ public interface RoomMapper {
 
     int updateByPrimaryKey(Room record);
 
-    List<Room> queryRoomList(@Param("pageNumber")int pageNumber, @Param("pageSize")int pageSize);
+    List<Room> queryRoomList(int pageNumber,int pageSize);
 
     int countRoom();
 
-    Room queryRoomByName(@Param("name") String name);
+    String queryRoomByName(String name);
+
 }

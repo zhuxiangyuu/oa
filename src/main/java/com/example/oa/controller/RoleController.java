@@ -126,6 +126,7 @@ public class RoleController {
             RoleMenuKey roleMenuKey = new RoleMenuKey(role.getId(),Integer.valueOf(menuid));
             roleMenuService.insert(roleMenuKey);
         }
+
         return "true";
     }
 

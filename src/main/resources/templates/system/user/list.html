@@ -113,7 +113,9 @@
         function queryParams() {
             var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
                 loginname:$("#searchLoginname").val(),
-                name:$("#searchName").val()
+                name:$("#searchName").val(),
+                orgid:$("#orgid").val(),
+                roleid:$("#roleid").val()
             };
             return temp;
         }
@@ -128,6 +130,8 @@
     </script>
 </head>
 <body>
+<input type="hidden" id="orgid" th:value="${session.user.orgid}"/>
+<input type="hidden" id="roleid" th:value="${session.user.roleid}"/>
 <!-- 搜索列表 -->
 <div style="text-align: center">
     <label for="searchLoginname">登录名：</label>

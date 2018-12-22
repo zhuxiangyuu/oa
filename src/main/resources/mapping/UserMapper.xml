@@ -91,8 +91,10 @@
         LEFT JOIN organization AS O ON U.orgId = O.id
         LEFT JOIN dept AS D ON U.deptId = D.id
         <where>
+            O.id = #{user.orgid}
+            AND  U.roleId &lt; #{user.roleid}
             <if test="user.loginname != null and user.loginname != ''">
-                U.loginName like concat( '%',#{user.loginname},'%')
+                and U.loginName like concat( '%',#{user.loginname},'%')
             </if>
             <if test="user.name != null and user.name != ''">
                 AND U.name like concat( '%',#{user.name},'%')
@@ -106,10 +108,13 @@
         SELECT
         count(1)
         FROM
-        `user`
+        `user` AS U
+        LEFT JOIN organization AS O ON U.orgId = O.id
         <where>
+            O.id = #{user.orgid}
+            AND  U.roleId &lt; #{user.roleid}
             <if test="user.loginname != null and user.loginname != ''">
-                loginName like concat( '%',#{user.loginname},'%')
+                AND loginName like concat( '%',#{user.loginname},'%')
             </if>
             <if test="user.name != null and user.name != ''">
                 AND name like concat( '%',#{user.name},'%')

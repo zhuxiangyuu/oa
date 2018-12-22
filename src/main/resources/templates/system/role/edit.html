@@ -11,7 +11,6 @@
     <script>
         // 文档就绪
         $(function () {
-            alert(getUrlParam('id'));
             // 拿到角色基本信息
             $.getJSON("/role/queryRoleInfoByRoleId",{id:getUrlParam('id')},function (data) {
                 $("#name").textbox('setValue', data.name);

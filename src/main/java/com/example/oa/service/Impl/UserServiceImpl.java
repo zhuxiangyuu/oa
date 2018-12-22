@@ -63,9 +63,15 @@ public class UserServiceImpl implements UserService {
         int orgid=user.getOrgid();//2
         int roleid=user.getRoleid();//1
             // 部门
-            deptid = deptid<3?deptid:7;
+            deptid = roleid<2?deptid:7;
+          /*  if(roleid<2){
+                deptid =deptid;
+            }else{
+                deptid  = 7;
+            }*/
+
             // 角色
-            roleid =orgid<=3?++roleid:2;
+            roleid =roleid<3?++roleid:3;
         //332
         return userMapper.queryNextAdmin(roleid,orgid,deptid);
     }

@@ -48,6 +48,30 @@ public class AnnounceController {
         String jsonString = JSON.toJSONStringWithDateFormat(map, "MM/dd/yyyy");
         return jsonString;
     }
+    //根据状态查询通告列表
+    @RequestMapping("/queryListByState/{state}")
+    @ResponseBody
+    public String queryAnnounceListByState(String title, String time1, String time2, int page, int rows,@PathVariable int state) {
+        Date date1 = null;
+        Date date2 = null;
+        try {
+            if (time1 != null && time1!="") {
+                date1 = new SimpleDateFormat("MM/dd/yyyy").parse(time1);
+            }
+            if (time2 != null && time2!="") {
+                date2 = new SimpleDateFormat("MM/dd/yyyy").parse(time2);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Announce> list = announceservice.queryAnnounceListByState(title, date1, date2, (page - 1) * rows, rows,state);
+        Map<String, Object> map = new HashMap();
+        map.put("total", announceservice.countAnnounce());
+        map.put("rows", list);
+        String jsonString = JSON.toJSONStringWithDateFormat(map, "MM/dd/yyyy");
+        return jsonString;
+    }
+
 
     //根据id查询一个通告
     @RequestMapping("/look")

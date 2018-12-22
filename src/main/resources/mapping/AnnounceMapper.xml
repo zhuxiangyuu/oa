@@ -60,7 +60,7 @@
     )AS COUA
       <where>
           <if test="title!=null and title!=''">
-              title like concat('%',#{title},'%')
+              A.title like concat('%',#{title},'%')
           </if>
           <if test="time1!=null" >
               and TO_DAYS(A.subTime) &gt;=  TO_DAYS  (#{time1})
@@ -81,6 +81,39 @@
            U.`name` from announce A
            INNER JOIN `user` AS U ON A.userId = U.id
            where A.id=#{id,jdbcType=INTEGER}
+  </select>
+  <!-- 查询已经审批完成的通告 -->
+  <select id="queryAnnounceListByState" resultMap="AnnounceDetail">
+    SELECT DISTINCT
+    A.id,
+    A.title,
+    A.startTime,
+    A.endTime,
+    A.subTime,
+    A.content,
+    T.state,
+    U.`name`
+    FROM
+    announce AS A
+    left JOIN `user` AS U
+    ON A.userId = U.id
+    INNER join task AS T
+    ON A.userId = T.userId
+    <where>
+      T.type = 9 and T.state = #{state}
+      <if test="title!=null and title!=''">
+        and A.title like concat('%',#{title},'%')
+      </if>
+      <if test="time1!=null">
+        and TO_DAYS(A.subTime) &gt;=  TO_DAYS  (#{time1})
+      </if>
+      <if test="time2!=null">
+        and TO_DAYS(A.subTime) &lt;=  TO_DAYS  (#{time2})
+      </if>
+    </where>
+    order BY A.id desc
+    limit ${pageNumber},${pageSize}
+
   </select>
   <!--查询通告列表-->
   <select id="queryAnnounceList" resultMap="AnnounceDetail">

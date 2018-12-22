@@ -30,6 +30,16 @@ public class AnnounceServiceImpl implements AnnounceService {
         return announceMapper.queryAnnounceList(title,time1,time2,pageNumber,pageSize);
     }
 
+    public List<Announce> queryAnnounceListByState(String title,
+                                            Date time1,
+                                            Date time2,
+                                            int pageNumber,
+                                            int pageSize,
+                                                   int state) {
+
+        return announceMapper.queryAnnounceListByState(title,time1,time2,pageNumber,pageSize,state);
+    }
+
     public int countAnnounce() {
 
         return announceMapper.countAnnounce();

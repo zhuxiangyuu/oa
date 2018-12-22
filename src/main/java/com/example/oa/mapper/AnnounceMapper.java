@@ -31,4 +31,15 @@ public interface AnnounceMapper {
     Announce lookAnnounceById(@Param("id")int id);
 
     int queryAnnounceId();
+
+    List<Announce> queryAnnounceListByState(@Param("title")String title,
+                                            @Param("time1") Date time1,
+                                            @Param("time2") Date time2,
+                                            @Param("pageNumber")int pageNumber,
+                                            @Param("pageSize")int pageSize,
+                                            @Param("state") int state);
+
+
+
+
 }

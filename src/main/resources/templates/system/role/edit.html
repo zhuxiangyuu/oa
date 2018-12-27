@@ -17,13 +17,21 @@
                 $("#remark").val(data.remark);
                 $("input[type=radio][name=state][value="+data.state+"]").attr("checked",'checked');
             });
-            // 拿到已有的权限
-            $.getJSON("/menu/getCheckMenuByRoleid",{roleid:getUrlParam('id')},function (data) {
-                for(var i =0;i<data.length;i++){
-                    var node = $('#tt').tree('find', data[i]);//找到id为”tt“这个树的节点id为”1“的对象
-                    $('#tt').tree('check', node.target);//设置选中该节点
+            $('#tt').tree({
+                url:'/menu/getMenu/0',
+                checkbox:true,
+                onLoadSuccess: function(){
+                    // 拿到已有的权限
+                    $.getJSON("/menu/getCheckMenuByRoleid",{roleid:getUrlParam('id')},function (data) {
+                        for(var i =0;i<data.length;i++){
+                            var node = $('#tt').tree('find', data[i]);//找到id为”tt“这个树的节点id为”1“的对象
+                            $('#tt').tree('check', node.target);//设置选中该节点
+                        }
+                    });
                 }
-            })
+            });
+
+
         });
         function save(){
             var nodes = $('#tt').tree('getChecked', ['checked','indeterminate']);
@@ -72,7 +80,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <ul id="tt" class="easyui-tree" data-options="url:'/menu/getMenu/0',checkbox:true "></ul>
+                    <ul id="tt" class="easyui-tree"></ul>
                 </td>
             </tr>
             <tr>

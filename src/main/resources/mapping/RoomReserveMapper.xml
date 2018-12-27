@@ -58,6 +58,11 @@
   <sql id="Base_Column_List">
     id, roomId, startTime, endTime, type, userId, adminId, state
   </sql>
+  <!-- 查询刚刚添加的会议室申请id -->
+  <select id="queryRoomReserveId" resultType="int">
+    SELECT max(room_reserve.id)
+    FROM room_reserve
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

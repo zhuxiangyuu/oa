@@ -26,4 +26,7 @@ public interface RoomMapper {
     int countRoom();
 
     Room queryRoomByName(@Param("name") String name);
+
+    List<Room> queryRoomNameByState();
+
 }

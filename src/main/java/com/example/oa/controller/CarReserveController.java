@@ -7,7 +7,6 @@ import com.example.oa.po.Task;
 import com.example.oa.po.User;
 import com.example.oa.service.CarReserveService;
 import com.example.oa.service.CarService;
-import com.example.oa.service.Impl.TaskServiceImpl;
 import com.example.oa.service.TaskService;
 import com.example.oa.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -42,6 +41,7 @@ public class CarReserveController {
         return str;
     }
     @RequestMapping("/add")
+    @ResponseBody
     public String addCarReserve(CarReserve carReserve){
         return carReserveService.addCarReserve(carReserve);
     }

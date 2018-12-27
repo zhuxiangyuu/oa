@@ -23,4 +23,5 @@ public interface RoomService {
 
     String queryRoomByName(String name);
 
+    List<Room> queryRoomNameByState();
 }

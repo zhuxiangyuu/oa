@@ -62,4 +62,9 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> queryRoomList(int pageNumber, int pageSize) {
         return roomMapper.queryRoomList(pageNumber,pageSize);
     }
+
+    @Override
+    public List<Room> queryRoomNameByState() {
+        return roomMapper.queryRoomNameByState();
+    }
 }

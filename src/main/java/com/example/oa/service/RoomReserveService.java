@@ -1,11 +1,8 @@
-package com.example.oa.mapper;
-
+package com.example.oa.service;
 
 import com.example.oa.po.RoomReserve;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
-public interface RoomReserveMapper {
+public interface RoomReserveService {
     int deleteByPrimaryKey(Integer id);
 
     int insert(RoomReserve record);
@@ -19,4 +16,5 @@ public interface RoomReserveMapper {
     int updateByPrimaryKey(RoomReserve record);
 
     int queryRoomReserveId();
+
 }

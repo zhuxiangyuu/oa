@@ -27,12 +27,13 @@ public class RoomReserve {
 
     private User admin;
 
-    private Integer state;// 审核状态
+    private Integer state;// 审核状态 (1.待审核(审核中) 2.审核通过 3.审核不通过 4.已过期)
 
     public Integer getId() {
         return id;
     }
 
+    
     public void setId(Integer id) {
         this.id = id;
     }

@@ -46,7 +46,7 @@ public class AnnounceServiceImpl implements AnnounceService {
     }
 
     @Override
-    public Announce lookAnnounceById(int id) {
+    public Announce lookAnnounceById (int id) {
         return announceMapper.lookAnnounceById(id);
     }
     //添加一条通告并添加一条待处理任务

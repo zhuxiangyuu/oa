@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/icon.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/themes/default/easyui.css}">
+    <link rel="stylesheet" th:href="@{/easyUi/demo/demo.css}">
+    <script th:src="@{/js/jquery-1.12.4.js}"></script>
+    <script th:src="@{/js/util.js}"></script>
+    <script th:src="@{/easyUi/jquery.easyui.min.js}"></script>
+    <script>
+        $(function () {
+            // 取到用车申请
+            $.getJSON("/roomReserve/look", {id: getUrlParam('id')}, function (data) {
+                console.log(data);
+                var roomReserve = data.roomReserve;
+                var task = data.task;
+                var user = data.user;
+                var room = data.room;
+                $("#starttime").append('<span>'+roomReserve.starttime+'</span>');
+                $("#endtime").append('<span>'+roomReserve.endtime+'</span>');
+                $("#name").append('<span>'+room.name+'</span>');
+                $("#remark").append('<span>'+room.remark+'</span>');
+                $("#adminid").append('<span>'+task.admin.name+'</span>');
+                if(task.subtime!=undefined){
+                    $("#subtime").append('<span>'+task.subtime+'</span>');
+                }
+                $("#username").append('<span>'+data.user.name+'</span>');
+                $.getJSON("/dept/queryDeptByUserid",{"userid":data.user.id},function (data) {
+                    $("#deptid").append('<span>'+data.name+'</span>');
+                });
+                <!-- 会议室用途1：会议 2：面试 3：培训 4：会客 5：其他） -->
+                if(roomReserve.type==1){
+                    $("#type").append('<span>'+'会议'+'</span>');
+                }else if(roomReserve.type==2){
+                    $("#type").append('<span>'+'面试'+'</span>');
+                }else if(roomReserve.type==3){
+                    $("#type").append('<span>'+'培训'+'</span>');
+                }else if(roomReserve.type==4){
+                    $("#type").append('<span>'+'会客'+'</span>');
+                }else if(roomReserve.type==5){
+                    $("#type").append('<span>'+'其他'+'</span>');
+                }
+
+                <!-- 审核状态 -->
+                if(task.state==1){
+                    $("#state").append('<span>'+'审核中'+'</span>');
+                }else if(task.state==2){
+                    $("#state").append('<span>'+'审核通过' +'</span>');
+                }else{
+                    $("#state").append('<span>'+'审核不通过' +'</span>');
+                }
+
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+<input type="hidden" id="userid">
+<div id="p" class="easyui-panel" title="<center>任务明细</center>">
+    <form id="ff" method="post">
+        <table style="margin:0 auto " cellpadding="10">
+            <tr>
+                <td>姓名</td>
+                <td id="username"></td>
+            </tr>
+            <tr>
+                <td>部门:</td>
+                <td id="deptid"></td>
+            </tr>
+            <tr>
+                <td>会议室名称:</td>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <td>会议室描述:</td>
+                <td id="remark"></td>
+            </tr>
+            <tr>
+                <td>会议室用途:</td>
+                <td id="type"></td>
+            </tr>
+            <tr>
+                <td>开始时间:</td>
+                <td id="starttime"></td>
+            </tr>
+            <tr>
+                <td>结束时间:</td>
+                <td id="endtime"></td>
+            </tr>
+            <tr>
+                <td>审批人:</td>
+                <td id="adminid"></td>
+            </tr>
+            <tr>
+                <td>审核意见:</td>
+                <td id="state"></td>
+            </tr>
+            <tr>
+                <td>审批时间:</td>
+                <td id="subtime"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td> <a href="javascript:history.go(-1)" class="easyui-linkbutton" >返回</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+
+</html>

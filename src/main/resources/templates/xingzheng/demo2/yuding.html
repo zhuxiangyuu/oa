@@ -19,14 +19,21 @@
                     return d1<=date && date<=d2;
                 }
             });
-            $('#endtime').datebox().datebox('calendar').calendar({
-                validator: function(date){
-                    var now = new Date();
-                    var d1 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
-                    var d2 = new Date(now.getFullYear(), now.getMonth(), now.getDate()+20);
-                    return d1<date && date<=d2;
+            $('#starttime').datebox({
+                onChange: function(){
+                    $('#endtime').datebox().datebox('calendar').calendar({
+                        validator: function(date){
+                            var now  =   $('#starttime').datebox('getValue').split('/');
+                            var d1 = new Date(now[2],parseInt(now[0])-1,now[1]);
+                            var d2 = new Date(now[2],parseInt(now[0])-1,parseInt(now[1])+20);
+                            return d1<=date && date<=d2;
+                        }
+                    });
                 }
             });
+
+
+
         });  <!-- 文档就绪  end! -->
         //下拉框赋值
         function nextAdmin() {

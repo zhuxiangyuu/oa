@@ -58,7 +58,7 @@ public class RoomReserveServiceImpl implements RoomReserveService {
 
     @Override
     public RoomReserve selectByPrimaryKey(Integer id) {
-        return null;
+        return roomReserveMapper.selectByPrimaryKey(id);
     }
 
     @Override

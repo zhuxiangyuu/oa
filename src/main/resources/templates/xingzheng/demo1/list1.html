@@ -22,6 +22,7 @@
                 title : "会议室预定管理",// 标题
                 pageList : [ 5, 10, 15, 20 ],// 列表记录数的下拉框值
                 pageSize : 5,// 默认每页记录数
+                queryParams: queryParams(),//传递参数（*）
                 columns : [ [
                     {
                         field : 'roomid',
@@ -89,23 +90,24 @@
                         width :50
                     },
                     {
+                        field : 'starttime',
+                        title : '预定时间',
+                        align : 'center',
+                        width :50
+                    },
+                    {
                         field : 'opt',
-                        title : "操作",
+                        title : '操作',
                         align : 'center',
                         width :50,
                         formatter : function(value, row, index) {
-                            return '<a href="javascript:void(0)" onclick="del('+row.id+')">删除</a>' +
-                                '| <a href="/page/xingzheng/demo1/edit?id='+row.id+' ">编辑</a> ' ;
+                            return '<a href="javascript:void(0)" onclick="del('+row.id+')">删除</a>';
                         }
-                    } ] ],
-                toolbar : [ {
-                    iconCls : 'icon-add',
-                    align : 'center',
-                    text : '添加会议室',
-                    handler:function(){
-                        window.location.href="/page/xingzheng/demo1/add";
-                    }
-                }]
+                    } ] ]
+            });
+            // 搜索按钮绑定事件
+            $("#search").click(function () {
+                $('#tab').datagrid("load", queryParams());   //点击搜索
             });
             dispalyPager();
         } //查询列表--->end
@@ -113,7 +115,7 @@
         function del(id) {
             $.messager.confirm('删除确认','您确定要删除吗?',function(r){
                 if (r){
-                    window.location.href="/room/delete/"+id;
+                    window.location.href="/roomReserve/delete/"+id;
                 }
             });
         }
@@ -128,13 +130,51 @@
         function back(){
             $("#win").window("close");
         }
+        // 刷新表格
+        function reloadtable() {
+            $('#tab').datagrid("load", queryParams());   //点击搜索
+        }
+        //得到查询的参数
+        function queryParams() {
+            var temp = { //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                time1: $('#starttime').datebox('getValue'),
+                time2: $('#endtime').datebox('getValue'),
+                type: $("#searchType").combobox("getValue"),
+                uerid:$("#useid").textbox('getValue'),
+                roomid:$("#roomid").textbox('getValue')
+            };
+            return temp;
+        }
+
 
 
     </script>
 </head>
 <body>
-<a th:href="@{/page/xingzheng/demo1/yuding}" class="easyui-linkbutton">会议室预定管理</a>
-<a th:href="@{/page/xingzheng/demo1/yuding}" class="easyui-linkbutton">会议室预定</a>
+<!-- 搜索列表 -->
+<div style="text-align: center">
+    <label for="starttime">预定时间段：</label>
+    <input name="searchTime1" class="easyui-datebox" id="starttime">&emsp; to
+    <input name="endtimev" class="easyui-datebox" id="endtime">
+    <label for="useid">预订人：</label>
+    <input  name="searchLoginname" class="easyui-searchbox" data-options="prompt:'请输入预订人',searcher:reloadtable" style="width:10%" id="useid">
+    <label for="roomid">会议室名称：</label>
+    <input  name="searchLoginname" class="easyui-searchbox" data-options="prompt:'请输入会议室名称',searcher:reloadtable" style="width:10%" id="roomid">
+    <label for="searchType">会议类型：</label>
+    <select id="searchType" class="easyui-combobox" name="searchType" style="width:150px;">
+        <option value="0">请选择</option>
+        <option value="1">会议</option>
+        <option value="2">面试</option>
+        <option value="3">培训</option>
+        <option value="4">会客</option>
+        <option value="5">其他</option>
+    </select>
+    <input type="hidden" id="user" th:value="${session.user.id}"/>
+    <!--查询按钮 -->
+    <a href="javascript:void(0)" class="easyui-linkbutton" style="margin-bottom: 0px;" iconCls="icon-search"
+       id="search">查询</a>
+</div>
+<p></p>
 <!-- 车辆列表 -->
 <table id="tab"></table>
 </body>

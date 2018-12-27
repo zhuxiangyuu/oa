@@ -37,8 +37,7 @@ public class CarReserveController {
     public String queryNextAdminByUserId(@PathVariable Integer userid){
         User user = userService.queryUserInfoByUserId(userid);
         List<User> list = userService.queryNextAdmin(user,"用车申请");
-        String str = JSON.toJSONStringWithDateFormat(list,"MM/dd/yyyy");
-        return str;
+        return JSON.toJSONStringWithDateFormat(list,"MM/dd/yyyy");
     }
     @RequestMapping("/add")
     @ResponseBody
@@ -58,7 +57,7 @@ public class CarReserveController {
         CarReserve carReserve = carReserveService.queryCarReserveAndTask(id);
         Map<String ,Object> map = new HashMap();
         map.put("carReserve",carReserve);
-        Task task = taskService.queryTaskByTaskId(Integer.valueOf(2 + "" + id));
+        Task task = taskService.queryTaskByTaskId(Integer.valueOf(1 + "" + id));
         map.put("task",task);
         User user = userService.queryUserInfoByUserId(carReserve.getUserid());
         map.put("user",user);
